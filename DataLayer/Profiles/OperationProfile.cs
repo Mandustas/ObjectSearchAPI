@@ -13,6 +13,8 @@ namespace DataLayer.Profiles
         public OperationProfile()
         {
             CreateMap<Operation, OperationsCreateDto>();
+            CreateMap<OperationsCreateDto, Operation>();
+            CreateMap<OperationsUpdateDto, Operation>();
         }
     }
 }

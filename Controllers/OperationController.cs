@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using DataLayer.DTOs.Operation;
 using DataLayer.Models;
 using DataLayer.Repositories.Operations;
 
@@ -29,32 +30,63 @@ namespace ObjectSearchAPI.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Operation>> GetOperations()
         {
-            var operations = _operationsRepository.GetOperations();
+            var operations = _operationsRepository.GetOperations().ToList();
             return Ok(operations);
         }
 
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{id}", Name = "GetOperationById")]
+        public ActionResult<Operation> GetOperationById(int id)
         {
-            return "value";
+            var operation = _operationsRepository.GetOperationById(id);
+            if (operation != null)
+            {
+                return Ok(operation);
+            }
+
+            return NotFound();
         }
 
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult<OperationsCreateDto> CreateOperation(OperationsCreateDto operationsCreateDto)
         {
+            var operation = _mapper.Map<Operation>(operationsCreateDto);
+            operation.Date = DateTime.Now;
+            operation.IsSuccess = false;
+            _operationsRepository.CreateOperations(operation);
+            _operationsRepository.SaveChanges();
 
+            var operationsReadDto = _mapper.Map<Operation>(operation);
+
+            return CreatedAtRoute(nameof(GetOperationById), new { Id = operationsReadDto.Id }, operationsReadDto); //Return 201
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public ActionResult<Operation> UpdateOperation(int id, OperationsUpdateDto operationsUpdateDto)
         {
+            var operation = _operationsRepository.GetOperationById(id);
+            if (operation == null)
+            {
+                return NotFound();
+            }
 
+            _mapper.Map(operationsUpdateDto, operation);
+            _operationsRepository.UpdateOperations(operation); //Best practice
+            _operationsRepository.SaveChanges();
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult DeleteOperation(int id)
         {
+            var operation = _operationsRepository.GetOperationById(id);
+            if (operation == null)
+            {
+                return NotFound();
+            }
 
+            _operationsRepository.DeleteOperations(operation);
+            _operationsRepository.SaveChanges();
+            return NoContent();
         }
     }
 }

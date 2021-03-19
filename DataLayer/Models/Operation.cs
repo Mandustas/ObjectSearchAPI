@@ -14,7 +14,7 @@ namespace DataLayer.Models
         [MaxLength(200)]
         public string Name { get; set; }
         public DateTime Date { get; set; }
-        public bool Success { get; set; }
+        public bool IsSuccess { get; set; }
 
     }
 }

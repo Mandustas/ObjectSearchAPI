@@ -5,9 +5,11 @@ using System.Text;
 
 namespace DataLayer.DTOs.Operation
 {
-    public class OperationsCreateDto
+    public class OperationsUpdateDto
     {
         [Required]
         public string Name { get; set; }
+        public bool IsSuccess { get; set; }
+
     }
 }

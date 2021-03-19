@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DataLayer.Contexts;
+using DataLayer.Repositories.Operations;
 using Microsoft.EntityFrameworkCore;
 
 namespace ObjectSearchAPI
@@ -35,6 +36,8 @@ namespace ObjectSearchAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ObjectSearchAPI", Version = "v1" });
             });
+
+            services.AddScoped<IOperationsRepository, OperationsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

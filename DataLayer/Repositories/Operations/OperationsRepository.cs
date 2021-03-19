@@ -7,7 +7,7 @@ using DataLayer.Models;
 
 namespace DataLayer.Repositories.Operations
 {
-    class OperationsRepository:IOperationsRepository
+    public class OperationsRepository:IOperationsRepository
     {
         private readonly ObjectSearchContext _objectSearchContext;
 
@@ -17,7 +17,7 @@ namespace DataLayer.Repositories.Operations
         }
         public bool SaveChanges()
         {
-            throw new NotImplementedException();
+            return _objectSearchContext.SaveChanges() >= 0;
         }
 
         public IEnumerable<Operation> GetOperations()
@@ -25,24 +25,32 @@ namespace DataLayer.Repositories.Operations
             return _objectSearchContext.Operation.ToList();
         }
 
-        public Operation GetOperationById()
+        public Operation GetOperationById(int id)
         {
-            throw new NotImplementedException();
+            return _objectSearchContext.Operation.FirstOrDefault(p => p.Id == id);
         }
 
         public void CreateOperations(Operation operation)
         {
-            throw new NotImplementedException();
+            if (operation == null)
+            {
+                throw new ArgumentNullException(nameof(operation));
+            }
+            _objectSearchContext.Add(operation);
         }
 
         public void DeleteOperations(Operation operation)
         {
-            throw new NotImplementedException();
+            if (operation == null)
+            {
+                throw new ArgumentNullException(nameof(operation));
+            }
+            _objectSearchContext.Remove(operation);
         }
 
         public void UpdateOperations(Operation operation)
         {
-            throw new NotImplementedException();
+            //nothing
         }
     }
 }
