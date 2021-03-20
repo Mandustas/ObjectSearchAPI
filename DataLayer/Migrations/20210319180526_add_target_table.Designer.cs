@@ -4,14 +4,16 @@ using DataLayer.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(ObjectSearchContext))]
-    partial class ObjectSearchContextModelSnapshot : ModelSnapshot
+    [Migration("20210319180526_add_target_table")]
+    partial class add_target_table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,66 +69,11 @@ namespace DataLayer.Migrations
                     b.ToTable("Targets");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SecondName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("OperationUser", b =>
-                {
-                    b.Property<int>("OperationsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UsersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("OperationsId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("OperationUser");
-                });
-
             modelBuilder.Entity("DataLayer.Models.Target", b =>
                 {
                     b.HasOne("DataLayer.Models.Operation", null)
                         .WithMany("Targets")
                         .HasForeignKey("OperationId");
-                });
-
-            modelBuilder.Entity("OperationUser", b =>
-                {
-                    b.HasOne("DataLayer.Models.Operation", null)
-                        .WithMany()
-                        .HasForeignKey("OperationsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DataLayer.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("DataLayer.Models.Operation", b =>

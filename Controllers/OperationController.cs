@@ -30,14 +30,14 @@ namespace ObjectSearchAPI.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Operation>> GetOperations()
         {
-            var operations = _operationsRepository.GetOperations().ToList();
+            var operations = _operationsRepository.Get().ToList();
             return Ok(operations);
         }
 
         [HttpGet("{id}", Name = "GetOperationById")]
         public ActionResult<Operation> GetOperationById(int id)
         {
-            var operation = _operationsRepository.GetOperationById(id);
+            var operation = _operationsRepository.GetById(id);
             if (operation != null)
             {
                 return Ok(operation);
@@ -52,7 +52,7 @@ namespace ObjectSearchAPI.Controllers
             var operation = _mapper.Map<Operation>(operationsCreateDto);
             operation.Date = DateTime.Now;
             operation.IsSuccess = false;
-            _operationsRepository.CreateOperations(operation);
+            _operationsRepository.Create(operation);
             _operationsRepository.SaveChanges();
 
             var operationsReadDto = _mapper.Map<Operation>(operation);
@@ -63,14 +63,14 @@ namespace ObjectSearchAPI.Controllers
         [HttpPut("{id}")]
         public ActionResult<Operation> UpdateOperation(int id, OperationsUpdateDto operationsUpdateDto)
         {
-            var operation = _operationsRepository.GetOperationById(id);
+            var operation = _operationsRepository.GetById(id);
             if (operation == null)
             {
                 return NotFound();
             }
 
             _mapper.Map(operationsUpdateDto, operation);
-            _operationsRepository.UpdateOperations(operation); //Best practice
+            _operationsRepository.Update(operation); //Best practice
             _operationsRepository.SaveChanges();
             return NoContent();
         }
@@ -78,13 +78,13 @@ namespace ObjectSearchAPI.Controllers
         [HttpDelete("{id}")]
         public ActionResult DeleteOperation(int id)
         {
-            var operation = _operationsRepository.GetOperationById(id);
+            var operation = _operationsRepository.GetById(id);
             if (operation == null)
             {
                 return NotFound();
             }
 
-            _operationsRepository.DeleteOperations(operation);
+            _operationsRepository.Delete(operation);
             _operationsRepository.SaveChanges();
             return NoContent();
         }

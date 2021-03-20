@@ -9,11 +9,11 @@ namespace DataLayer.Repositories.Operations
     {
         bool SaveChanges();
 
-        IEnumerable<Models.Operation> GetOperations();
-        Operation GetOperationById(int id);
-        void CreateOperations(Operation operation);
-        void DeleteOperations(Operation operation);
-        void UpdateOperations(Operation operation);
+        IEnumerable<Models.Operation> Get();
+        Operation GetById(int id);
+        void Create(Operation operation);
+        void Delete(Operation operation);
+        void Update(Operation operation);
 
     }
 }

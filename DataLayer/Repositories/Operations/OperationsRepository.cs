@@ -20,17 +20,17 @@ namespace DataLayer.Repositories.Operations
             return _objectSearchContext.SaveChanges() >= 0;
         }
 
-        public IEnumerable<Operation> GetOperations()
+        public IEnumerable<Operation> Get()
         {
-            return _objectSearchContext.Operation.ToList();
+            return _objectSearchContext.Operations.ToList();
         }
 
-        public Operation GetOperationById(int id)
+        public Operation GetById(int id)
         {
-            return _objectSearchContext.Operation.FirstOrDefault(p => p.Id == id);
+            return _objectSearchContext.Operations.FirstOrDefault(p => p.Id == id);
         }
 
-        public void CreateOperations(Operation operation)
+        public void Create(Operation operation)
         {
             if (operation == null)
             {
@@ -39,7 +39,7 @@ namespace DataLayer.Repositories.Operations
             _objectSearchContext.Add(operation);
         }
 
-        public void DeleteOperations(Operation operation)
+        public void Delete(Operation operation)
         {
             if (operation == null)
             {
@@ -48,7 +48,7 @@ namespace DataLayer.Repositories.Operations
             _objectSearchContext.Remove(operation);
         }
 
-        public void UpdateOperations(Operation operation)
+        public void Update(Operation operation)
         {
             //nothing
         }

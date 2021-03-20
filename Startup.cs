@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DataLayer.Contexts;
 using DataLayer.Repositories.Operations;
+using DataLayer.Repositories.Targets;
 using Microsoft.EntityFrameworkCore;
 
 namespace ObjectSearchAPI
@@ -38,6 +39,7 @@ namespace ObjectSearchAPI
             });
 
             services.AddScoped<IOperationsRepository, OperationsRepository>();
+            services.AddScoped<ITargetRepository, TargetRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

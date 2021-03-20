@@ -15,6 +15,8 @@ namespace DataLayer.Models
         public string Name { get; set; }
         public DateTime Date { get; set; }
         public bool IsSuccess { get; set; }
+        public IEnumerable<Target> Targets { get; set; }
+        public IEnumerable<User> Users { get; set; }
 
     }
 }
