@@ -6,18 +6,14 @@ using System.Threading.Tasks;
 
 namespace DataLayer.Models
 {
-    public class Operation
+    public class ObjectStatus
     {
         [Key]
         public int Id { get; set; }
         [Required]
-        [MaxLength(200)]
+        [MaxLength(50)]
         public string Title { get; set; }
-        public DateTime Date { get; set; }
-        public bool IsSuccess { get; set; }
-        public int CoordinatorId { get; set; }
-        public IEnumerable<User> Users { get; set; }
-        public IEnumerable<Target> Targets { get; set; }
+        public IEnumerable<DetectedObject> DetectedObjects { get; set; }
 
     }
 }

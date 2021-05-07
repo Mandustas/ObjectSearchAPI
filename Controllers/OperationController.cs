@@ -31,6 +31,7 @@ namespace ObjectSearchAPI.Controllers
         public ActionResult<IEnumerable<Operation>> GetOperations()
         {
             var operations = _operationsRepository.Get().ToList();
+
             return Ok(operations);
         }
 

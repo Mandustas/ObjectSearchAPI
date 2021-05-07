@@ -6,17 +6,16 @@ using System.Threading.Tasks;
 
 namespace DataLayer.Models
 {
-    public class Target
+    public class UserPosition
     {
         [Key]
         public int Id { get; set; }
         [Required]
         [MaxLength(50)]
-        public string Title { get; set; }
+        public string X { get; set; }
         [Required]
-        [MaxLength(300)]
-        public string Description { get; set; }
-        public DateTime LostTime { get; set; }
+        [MaxLength(50)]
+        public string Y { get; set; }
 
     }
 }

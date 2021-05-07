@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using DataLayer.Contexts;
 using DataLayer.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.Repositories.Operations
 {
@@ -22,12 +23,38 @@ namespace DataLayer.Repositories.Operations
 
         public IEnumerable<Operation> Get()
         {
-            return _objectSearchContext.Operations.ToList();
+            var operations =  _objectSearchContext.Operations
+                .Include(u => u.Users)
+                .Include(t => t.Targets)
+                .ToList();
+            foreach (var operation in operations) // TODO find a way to return operations without user.operations (DBO???)
+            {
+                foreach (var user in operation.Users)
+                {
+                    user.Operations = null;
+                }
+            }
+
+            return operations;
         }
 
         public Operation GetById(int id)
         {
-            return _objectSearchContext.Operations.FirstOrDefault(p => p.Id == id);
+            var operation = _objectSearchContext.Operations
+                .Include(u => u.Users)
+                .Include(t => t.Targets)
+                .FirstOrDefault(p => p.Id == id);
+            if (operation != null)
+            {
+                foreach (var user in operation.Users)
+                {
+                    user.Operations = null;
+                }
+
+                return operation;
+            }
+
+            return null;
         }
 
         public void Create(Operation operation)
