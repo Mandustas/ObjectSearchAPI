@@ -9,7 +9,7 @@ namespace DataLayer.Repositories.Operations
     {
         bool SaveChanges();
 
-        IEnumerable<Models.Operation> Get();
+        IEnumerable<Models.Operation> Get(bool? isSuccess = null);
         Operation GetById(int id);
         void Create(Operation operation);
         void Delete(Operation operation);

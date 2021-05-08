@@ -13,7 +13,7 @@ namespace DataLayer.Models
         [Required]
         [MaxLength(50)]
         public string Title { get; set; }
-        public IEnumerable<User> Users { get; set; }
+        public virtual ICollection<User> Users { get; set; }
 
     }
 }

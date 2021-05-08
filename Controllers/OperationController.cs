@@ -28,9 +28,9 @@ namespace ObjectSearchAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Operation>> GetOperations()
+        public ActionResult<IEnumerable<Operation>> GetOperations(bool? isActive = true)
         {
-            var operations = _operationsRepository.Get().ToList();
+            var operations = _operationsRepository.Get(!isActive).ToList();
 
             return Ok(operations);
         }
@@ -39,6 +39,18 @@ namespace ObjectSearchAPI.Controllers
         public ActionResult<Operation> GetOperationById(int id)
         {
             var operation = _operationsRepository.GetById(id);
+            if (operation != null)
+            {
+                return Ok(operation);
+            }
+
+            return NotFound();
+        }
+
+        [HttpGet("active", Name = "GetActiveOperation")]
+        public ActionResult<Operation> GetActiveOperation()
+        {
+            var operation = _operationsRepository.Get(isSuccess: false).FirstOrDefault();
             if (operation != null)
             {
                 return Ok(operation);
@@ -71,7 +83,7 @@ namespace ObjectSearchAPI.Controllers
             }
 
             _mapper.Map(operationsUpdateDto, operation);
-            _operationsRepository.Update(operation); //Best practice
+            _operationsRepository.Update(operation); // Best practice
             _operationsRepository.SaveChanges();
             return NoContent();
         }

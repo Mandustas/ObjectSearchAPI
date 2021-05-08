@@ -18,5 +18,12 @@ namespace DataLayer.Models
         public string Description { get; set; }
         public DateTime LostTime { get; set; }
 
+        public int OperationId { get; set; }
+        public Operation Operation { get; set; }
+        public int TargetStatusId { get; set; }
+        public TargetStatus TargetStatus { get; set; }
+        public int TargetTypeId { get; set; }
+        public TargetType TargetType { get; set; }
+
     }
 }

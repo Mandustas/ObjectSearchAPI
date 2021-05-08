@@ -16,6 +16,9 @@ namespace DataLayer.Models
         [Required]
         [MaxLength(50)]
         public string Y { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
+
 
     }
 }

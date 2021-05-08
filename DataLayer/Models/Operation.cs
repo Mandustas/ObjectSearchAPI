@@ -16,8 +16,8 @@ namespace DataLayer.Models
         public DateTime Date { get; set; }
         public bool IsSuccess { get; set; }
         public int CoordinatorId { get; set; }
-        public IEnumerable<User> Users { get; set; }
-        public IEnumerable<Target> Targets { get; set; }
+        public IEnumerable<OperationUser> Users { get; set; }
+        public virtual IEnumerable<Target> Targets { get; set; }
 
     }
 }

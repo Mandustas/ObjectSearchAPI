@@ -14,7 +14,9 @@ namespace DataLayer.Models
         public DateTime TimeCreate { get; set; }
         public int QtyFindObject { get; set; }
         public int QtyVerifiedObject { get; set; }
-        public IEnumerable<DetectedObject> DetectedObjects { get; set; }
+        public int CycleId { get; set; }
+        public Cycle Cycle { get; set; }
+        public virtual IEnumerable<DetectedObject> DetectedObjects { get; set; }
 
 
 

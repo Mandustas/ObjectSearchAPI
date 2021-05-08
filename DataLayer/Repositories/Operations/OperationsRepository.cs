@@ -21,18 +21,24 @@ namespace DataLayer.Repositories.Operations
             return _objectSearchContext.SaveChanges() >= 0;
         }
 
-        public IEnumerable<Operation> Get()
+        public IEnumerable<Operation> Get(bool? isSuccess=null)
         {
             var operations =  _objectSearchContext.Operations
                 .Include(u => u.Users)
                 .Include(t => t.Targets)
                 .ToList();
+
             foreach (var operation in operations) // TODO find a way to return operations without user.operations (DBO???)
             {
                 foreach (var user in operation.Users)
                 {
-                    user.Operations = null;
+                    user.Operation = null;
                 }
+            }
+
+            if (isSuccess.HasValue)
+            {
+                operations = operations.Where(s => s.IsSuccess == isSuccess).ToList();
             }
 
             return operations;
@@ -48,7 +54,7 @@ namespace DataLayer.Repositories.Operations
             {
                 foreach (var user in operation.Users)
                 {
-                    user.Operations = null;
+                    user.Operation = null;
                 }
 
                 return operation;

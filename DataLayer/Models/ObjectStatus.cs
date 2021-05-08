@@ -13,7 +13,7 @@ namespace DataLayer.Models
         [Required]
         [MaxLength(50)]
         public string Title { get; set; }
-        public IEnumerable<DetectedObject> DetectedObjects { get; set; }
+        public virtual IEnumerable<DetectedObject> DetectedObjects { get; set; }
 
     }
 }

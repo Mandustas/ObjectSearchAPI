@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace DataLayer.Models
@@ -19,9 +20,16 @@ namespace DataLayer.Models
         [MaxLength(50)]
         public string MiddleName{ get; set; }
         public bool IsBusy { get; set; }
-        public IEnumerable<Operation> Operations { get; set; }
-        public IEnumerable<UserPosition> Positions { get; set; }
-        public IEnumerable<Mission> Missions { get; set; }
+
+        public int UserRoleId { get; set; }
+        public UserRole UserRole { get; set; }
+
+        public int UserStatusId { get; set; }
+        public UserStatus UserStatus { get; set; }
+
+        public IEnumerable<OperationUser> Operations { get; set; }
+        public virtual IEnumerable<UserPosition> UserPositions { get; set; }
+        public virtual IEnumerable<Mission> Missions { get; set; }
 
 
 
