@@ -8,6 +8,6 @@ namespace DataLayer.DTOs.Operation
     public class OperationsCreateDto
     {
         [Required]
-        public string Name { get; set; }
+        public string Title { get; set; }
     }
 }

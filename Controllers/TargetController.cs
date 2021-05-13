@@ -12,8 +12,18 @@ namespace ObjectSearchAPI.Controllers
 {
     [Route("api/target")]
     [ApiController]
+
+
     public class TargetController : ControllerBase
     {
+        enum TargetStatuses
+        {
+            Finded = 1,
+            Attention = 2,
+            NotFound = 3
+
+        }
+
         // GET: api/<TargetController>
         private readonly ITargetRepository _targetRepository;
         private readonly IMapper _mapper;
@@ -49,10 +59,12 @@ namespace ObjectSearchAPI.Controllers
         public ActionResult<TargetCreateDto> CreateTarget(TargetCreateDto targetCreateDto)
         {
             var target = _mapper.Map<Target>(targetCreateDto);
+            target.TargetStatusId = (int)TargetStatuses.NotFound;
             _targetRepository.Create(target);
             _targetRepository.SaveChanges();
 
             var targetReadDto = _mapper.Map<Target>(target);
+
 
             return CreatedAtRoute(nameof(GetTargetById), new { Id = targetReadDto.Id }, targetReadDto); //Return 201
         }

@@ -4,14 +4,16 @@ using DataLayer.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(ObjectSearchContext))]
-    partial class ObjectSearchContextModelSnapshot : ModelSnapshot
+    [Migration("20210509035644_fk_coordinatorid")]
+    partial class fk_coordinatorid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -793,23 +795,23 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.Operation", b =>
                 {
-                    b.HasOne("DataLayer.Models.User", "Coordinator")
+                    b.HasOne("DataLayer.Models.User", "User")
                         .WithMany("СontrolledOperations")
                         .HasForeignKey("CoordinatorId");
 
-                    b.Navigation("Coordinator");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DataLayer.Models.OperationUser", b =>
                 {
                     b.HasOne("DataLayer.Models.Operation", "Operation")
-                        .WithMany("OperationUsers")
+                        .WithMany("Users")
                         .HasForeignKey("OperationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DataLayer.Models.User", "User")
-                        .WithMany("OperationUsers")
+                        .WithMany("Operations")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -893,9 +895,9 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.Operation", b =>
                 {
-                    b.Navigation("OperationUsers");
-
                     b.Navigation("Targets");
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("DataLayer.Models.TargetStatus", b =>
@@ -914,7 +916,7 @@ namespace DataLayer.Migrations
 
                     b.Navigation("Missions");
 
-                    b.Navigation("OperationUsers");
+                    b.Navigation("Operations");
 
                     b.Navigation("UserPositions");
                 });

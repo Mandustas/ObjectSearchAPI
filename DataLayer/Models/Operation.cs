@@ -14,10 +14,12 @@ namespace DataLayer.Models
         [MaxLength(200)]
         public string Title { get; set; }
         public DateTime Date { get; set; }
-        public bool IsSuccess { get; set; }
-        public int CoordinatorId { get; set; }
-        public IEnumerable<OperationUser> Users { get; set; }
+        public bool IsSuccess { get; set; } 
+        public int? CoordinatorId { get; set; }
+        public User Coordinator { get; set; }
+        public IEnumerable<User> Users { get; set; }
         public virtual IEnumerable<Target> Targets { get; set; }
+        public List<OperationUser> OperationUsers { get; set; }
 
     }
 }

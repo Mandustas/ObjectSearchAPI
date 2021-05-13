@@ -26,10 +26,11 @@ namespace DataLayer.Models
 
         public int UserStatusId { get; set; }
         public UserStatus UserStatus { get; set; }
-
-        public IEnumerable<OperationUser> Operations { get; set; }
+        public IEnumerable<Operation> СontrolledOperations { get; set; }
+        public IEnumerable<Operation> Operations { get; set; }
         public virtual IEnumerable<UserPosition> UserPositions { get; set; }
         public virtual IEnumerable<Mission> Missions { get; set; }
+        public List<OperationUser> OperationUsers { get; set; }
 
 
 
