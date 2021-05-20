@@ -17,6 +17,7 @@ namespace DataLayer.Models
         public int CycleId { get; set; }
         public Cycle Cycle { get; set; }
         public virtual IEnumerable<DetectedObject> DetectedObjects { get; set; }
+        public virtual IEnumerable<DetectedObject> DetectedObjectsMarkUp { get; set; }
 
 
 

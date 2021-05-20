@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.Repositories.Missions
 {
-    public class MissionRepository: IMissionRepository
+    public class DetectionObjectRepository: IMissionRepository
     {
         private readonly ObjectSearchContext _objectSearchContext;
 
-        public MissionRepository(ObjectSearchContext objectSearchContext)
+        public DetectionObjectRepository(ObjectSearchContext objectSearchContext)
         {
             _objectSearchContext = objectSearchContext;
         }

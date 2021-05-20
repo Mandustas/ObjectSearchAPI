@@ -48,7 +48,7 @@ namespace ObjectSearchAPI.Controllers
         }
 
         [HttpGet("active", Name = "GetActiveOperation")]
-        public ActionResult<Operation> GetActiveOperation(int? coordinatorId=null)
+        public ActionResult<Operation> GetActiveOperation(int? coordinatorId = null)
         {
             var operation = _operationsRepository.Get(isSuccess: false, coordinatorId).FirstOrDefault();
             if (operation != null)

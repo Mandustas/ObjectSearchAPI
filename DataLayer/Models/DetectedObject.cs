@@ -23,12 +23,13 @@ namespace DataLayer.Models
         [Required]
         [MaxLength(50)]
         public string Y { get; set; }
-        public int ImageId { get; set; }
+        public int? ImageId { get; set; }
         public Image Image { get; set; }
+        public int? ImageMarkedUpId { get; set; }
+        public Image ImageMarkedUp { get; set; }
         public int? MissionId { get; set; }
         public Mission Mission { get; set; }
-        //public int ObjectStatusId { get; set; }
-        //public ObjectStatus ObjectStatus { get; set; }
-
+        public int OperationId { get; set; }
+        public Operation Operation { get; set; }
     }
 }

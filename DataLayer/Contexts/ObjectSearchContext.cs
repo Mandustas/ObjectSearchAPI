@@ -92,7 +92,13 @@ namespace DataLayer.Contexts
                         .WithMany(p => p.DetectedObjects)
                         .HasForeignKey("ImageId");
                 });
-
+            modelBuilder.Entity<DetectedObject>(
+                entity =>
+                {
+                    entity.HasOne(d => d.ImageMarkedUp)
+                        .WithMany(p => p.DetectedObjectsMarkUp)
+                        .HasForeignKey("ImageMarkedUpId");
+                });
             modelBuilder.Entity<DetectedObject>(
                 entity =>
                 {
@@ -101,6 +107,14 @@ namespace DataLayer.Contexts
                         .HasForeignKey("MissionId");
                 });
 
+
+            modelBuilder.Entity<DetectedObject>(
+                entity =>
+                {
+                    entity.HasOne(d => d.Operation)
+                        .WithMany(p => p.DetectedObjects)
+                        .HasForeignKey("OperationId");
+                });
 
             modelBuilder.Entity<UserPosition>(
                 entity =>
@@ -232,12 +246,12 @@ namespace DataLayer.Contexts
             modelBuilder.Entity<DetectedObject>().HasData(
                 new DetectedObject[]
                 {
-                    new DetectedObject { Id = 1, X="53.22104557790858", Y="34.11112667059104", Title = "Кот на дубе", Description="На Севере лукоморья",ImageId=1, MissionId=1},
-                    new DetectedObject { Id = 2, X="53.21104557790858", Y="34.11012667059104", Title = "Кот в камышах", Description="На Юго-Западе леса", ImageId=2, MissionId=1},
-                    new DetectedObject { Id = 3, X="53.23204557790858", Y="34.12212667059104", Title = "Кот Матроскин", Description="В деревне", ImageId=1, MissionId=1, IsDesired=true},
-                    new DetectedObject { Id = 4, X="53.23104557790858", Y="34.13112667059104", Title = "Кот Леопольд", Description="Желает жить дружно", ImageId=2, MissionId=1, IsDesired=false},
-                    new DetectedObject { Id = 5, X="53.21204557790858", Y="34.17212667059104", Title = "Кот Баюн", Description="В чаще", ImageId=2},
-                    new DetectedObject { Id = 6, X="53.25104557790858", Y="34.16012667059104", Title = "Кот в сапогах", Description="На Востоке",ImageId=3, MissionId=2},
+                    new DetectedObject { Id = 1, X="53.22104557790858", Y="34.11112667059104", Title = "Кот на дубе", Description="На Севере лукоморья",ImageId=1,ImageMarkedUpId=1, MissionId=1, OperationId=1},
+                    new DetectedObject { Id = 2, X="53.21104557790858", Y="34.11012667059104", Title = "Кот в камышах", Description="На Юго-Западе леса", ImageId=2,ImageMarkedUpId=1, MissionId=1, OperationId=1},
+                    new DetectedObject { Id = 3, X="53.23204557790858", Y="34.12212667059104", Title = "Кот Матроскин", Description="В деревне", ImageId=1,ImageMarkedUpId=1, MissionId=1, IsDesired=true, OperationId=1},
+                    new DetectedObject { Id = 4, X="53.23104557790858", Y="34.13112667059104", Title = "Кот Леопольд", Description="Желает жить дружно", ImageId=2,ImageMarkedUpId=1, MissionId=1, IsDesired=false, OperationId=1},
+                    new DetectedObject { Id = 5, X="53.21204557790858", Y="34.17212667059104", Title = "Кот Баюн", Description="В чаще", ImageId=2, OperationId=1},
+                    new DetectedObject { Id = 6, X="53.25104557790858", Y="34.16012667059104", Title = "Кот в сапогах", Description="На Востоке",ImageId=3,ImageMarkedUpId=1, MissionId=2, OperationId=1},
                 });
 
             //modelBuilder.Entity<ObjectStatus>().HasData(

@@ -60,6 +60,7 @@ namespace ObjectSearchAPI.Controllers
         {
             var target = _mapper.Map<Target>(targetCreateDto);
             target.TargetStatusId = (int)TargetStatuses.NotFound;
+            target.LostTime = targetCreateDto.LostTime.ToLocalTime();
             _targetRepository.Create(target);
             _targetRepository.SaveChanges();
 

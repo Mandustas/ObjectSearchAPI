@@ -15,6 +15,7 @@ using DataLayer.Contexts;
 using DataLayer.Repositories.Operations;
 using DataLayer.Repositories.Targets;
 using Microsoft.EntityFrameworkCore;
+using DataLayer.Repositories.DetectedObjects;
 
 namespace ObjectSearchAPI
 {
@@ -40,6 +41,7 @@ namespace ObjectSearchAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ObjectSearchAPI", Version = "v1" });
             });
 
+            services.AddScoped<IDetectedObjectRepository, DetectedObjectRepository>();
             services.AddScoped<IOperationsRepository, OperationsRepository>();
             services.AddScoped<ITargetRepository, TargetRepository>();
         }

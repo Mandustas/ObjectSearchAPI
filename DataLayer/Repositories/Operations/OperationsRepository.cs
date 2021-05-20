@@ -42,8 +42,13 @@ namespace DataLayer.Repositories.Operations
                         foreach (var detectedObject in mission.DetectedObjects)
                         {
                             detectedObject.Mission = null;
+                            detectedObject.Operation = null;
                         }
+
                         mission.User = null;
+                        mission.User = new User();
+                        mission.User.FirstName = user.FirstName;
+                        mission.User.SecondName = user.SecondName;
                     }
                     user.Operations = null;
                     user.OperationUsers = null;
