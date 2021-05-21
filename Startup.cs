@@ -16,6 +16,8 @@ using DataLayer.Repositories.Operations;
 using DataLayer.Repositories.Targets;
 using Microsoft.EntityFrameworkCore;
 using DataLayer.Repositories.DetectedObjects;
+using DataLayer.Repositories.Images;
+using DataLayer.Repositories.Missions;
 
 namespace ObjectSearchAPI
 {
@@ -44,6 +46,8 @@ namespace ObjectSearchAPI
             services.AddScoped<IDetectedObjectRepository, DetectedObjectRepository>();
             services.AddScoped<IOperationsRepository, OperationsRepository>();
             services.AddScoped<ITargetRepository, TargetRepository>();
+            services.AddScoped<IImageRepository, ImageRepository>();
+            services.AddScoped<IMissionRepository, MissionRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

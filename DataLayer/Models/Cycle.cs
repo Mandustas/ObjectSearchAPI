@@ -19,6 +19,8 @@ namespace DataLayer.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public virtual IEnumerable<Image> Images { get; set; }
+        public int OperationId { get; set; }
+        public Operation Operation { get; set; }
 
     }
 }

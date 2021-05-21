@@ -31,5 +31,6 @@ namespace DataLayer.Models
         public Mission Mission { get; set; }
         public int OperationId { get; set; }
         public Operation Operation { get; set; }
+
     }
 }

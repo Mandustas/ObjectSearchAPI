@@ -36,16 +36,28 @@ namespace ObjectSearchAPI.Controllers
         }
 
         // GET api/<ValuesController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{id}", Name = "GetMissionById")]
+        public ActionResult<Target> GetMissionById(int id)
         {
-            return "value";
+            var mission = _missionRepository.GetById(id);
+            if (mission != null)
+            {
+                return Ok(mission);
+            }
+
+            return NotFound();
         }
 
         // POST api/<ValuesController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult<MissionCreateDto> CreateMission(MissionCreateDto missionCreateDto)
         {
+            var mission = _mapper.Map<Mission>(missionCreateDto);
+            _missionRepository.Create(mission);
+            _missionRepository.SaveChanges();
+            var missionReadDto = _mapper.Map<Mission>(mission);
+
+            return CreatedAtRoute(nameof(GetMissionById), new { Id = missionReadDto.Id }, missionReadDto); //Return 201
         }
 
         // PUT api/<ValuesController>/5
@@ -57,9 +69,17 @@ namespace ObjectSearchAPI.Controllers
 
         // DELETE api/<ValuesController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult DeleteMission(int id)
         {
+            var mission = _missionRepository.GetById(id);
+            if (mission == null)
+            {
+                return NotFound();
+            }
 
+            _missionRepository.Delete(mission);
+            _missionRepository.SaveChanges();
+            return NoContent();
         }
     }
 }

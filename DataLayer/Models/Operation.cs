@@ -21,6 +21,8 @@ namespace DataLayer.Models
         public virtual IEnumerable<Target> Targets { get; set; }
         public List<OperationUser> OperationUsers { get; set; }
         public virtual IEnumerable<DetectedObject> DetectedObjects { get; set; }
+        public virtual IEnumerable<Cycle> Cycles { get; set; }
+
 
 
     }

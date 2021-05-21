@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.Repositories.Missions
 {
-    public class DetectionObjectRepository: IMissionRepository
+    public class MissionRepository: IMissionRepository
     {
         private readonly ObjectSearchContext _objectSearchContext;
 
-        public DetectionObjectRepository(ObjectSearchContext objectSearchContext)
+        public MissionRepository(ObjectSearchContext objectSearchContext)
         {
             _objectSearchContext = objectSearchContext;
         }
@@ -26,6 +26,14 @@ namespace DataLayer.Repositories.Missions
             var missions =  _objectSearchContext.Missions
                 .Include(u => u.DetectedObjects)
                 .ToList();
+            foreach (var mission in missions)
+            {
+                foreach (var detectedObject in mission.DetectedObjects)
+                {
+                    detectedObject.Mission = null;
+                    detectedObject.Operation = null;
+                }
+            }
             return missions;
         }
 
@@ -36,6 +44,11 @@ namespace DataLayer.Repositories.Missions
                 .FirstOrDefault(p => p.Id == id);
             if (missions != null)
             {
+                foreach (var detectedObject in missions.DetectedObjects)
+                {
+                    detectedObject.Mission = null;
+                    detectedObject.Operation = null;
+                }
 
                 return missions;
             }

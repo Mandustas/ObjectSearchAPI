@@ -166,6 +166,13 @@ namespace DataLayer.Contexts
                         .HasForeignKey("CoordinatorId");
                 });
 
+            modelBuilder.Entity<Cycle>(
+                entity =>
+                {
+                    entity.HasOne(d => d.Operation)
+                        .WithMany(p => p.Cycles)
+                        .HasForeignKey("OperationId");
+                });
 
             //modelBuilder.Entity<DetectedObject>(
             //    entity =>
@@ -231,8 +238,8 @@ namespace DataLayer.Contexts
             modelBuilder.Entity<Cycle>().HasData(
                 new Cycle[]
                 {
-                    new Cycle { Id = 1, Title="Облет леса", Description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nec volutpat elit. Pellentesque sit amet ullamcorper leo. In dictum hendrerit tempus. Mauris ultrices ante eu leo elementum, in pretium neque semper. ",StartDate=new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473), EndDate=new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473).AddMinutes(20)},
-                    new Cycle { Id = 2, Title="Облет поля", Description="Ut maximus aliquam leo, eu congue neque consequat eget. Integer non nulla augue. Vestibulum odio est, posuere ac orci sed, mollis dapibus massa. Nullam mattis neque ac scelerisque euismod. Aliquam pretium nisi sed leo iaculis molestie ut ac erat.",StartDate=new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473), EndDate=new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473).AddMinutes(20)},
+                    new Cycle { Id = 1, Title="Облет леса", Description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nec volutpat elit. Pellentesque sit amet ullamcorper leo. In dictum hendrerit tempus. Mauris ultrices ante eu leo elementum, in pretium neque semper. ",StartDate=new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473), EndDate=new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473).AddMinutes(20), OperationId = 1},
+                    new Cycle { Id = 2, Title="Облет поля", Description="Ut maximus aliquam leo, eu congue neque consequat eget. Integer non nulla augue. Vestibulum odio est, posuere ac orci sed, mollis dapibus massa. Nullam mattis neque ac scelerisque euismod. Aliquam pretium nisi sed leo iaculis molestie ut ac erat.",StartDate=new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473), EndDate=new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473).AddMinutes(20), OperationId = 1},
                 });
 
             modelBuilder.Entity<Image>().HasData(
@@ -240,7 +247,7 @@ namespace DataLayer.Contexts
                 {
                     new Image { Id = 1, Path="https://thumbs.dreamstime.com/b/%D0%BB%D0%B5%D1%81-%D1%81%D0%B2%D0%B5%D1%80%D1%85%D1%83-%D0%BB%D0%B5%D1%82%D0%BE%D0%BC-%D0%B2%D0%B8%D0%B4-%D1%81-%D0%B2%D0%BE%D0%B7%D0%B4%D1%83%D1%85%D0%B0-%D0%BE%D0%B1%D0%BE%D0%B5%D0%B2-%D0%BB%D0%B5%D1%81%D0%B0-153275483.jpg", QtyFindObject=1, QtyVerifiedObject=1,TimeCreate=new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473), CycleId=1},
                     new Image { Id = 2, Path="https://i.pinimg.com/736x/c5/dc/53/c5dc53070960ee2ea4fb07ed2ff325b3.jpg", QtyFindObject=1, QtyVerifiedObject=1,TimeCreate=new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473), CycleId=1},
-                    new Image { Id = 3, Path="https://envato-shoebox-0.imgix.net/4c17/f9ef-0fc2-4571-8819-373327ab564c/trip+mix-12.jpg?auto=compress%2Cformat&fit=max&mark=https%3A%2F%2Felements-assets.envato.com%2Fstatic%2Fwatermark2.png&markalign=center%2Cmiddle&markalpha=18&w=700&s=e56aa60d45ab74037c9f43d3a088bbdf", QtyFindObject=1, QtyVerifiedObject=1,TimeCreate=new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473), CycleId=1},
+                    new Image { Id = 3, Path="https://envato-shoebox-0.imgix.net/4c17/f9ef-0fc2-4571-8819-373327ab564c/trip+mix-12.jpg?auto=compress%2Cformat&fit=max&mark=https%3A%2F%2Felements-assets.envato.com%2Fstatic%2Fwatermark2.png&markalign=center%2Cmiddle&markalpha=18&w=700&s=e56aa60d45ab74037c9f43d3a088bbdf", QtyFindObject=1, QtyVerifiedObject=1,TimeCreate=new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473), CycleId=2},
                 });
 
             modelBuilder.Entity<DetectedObject>().HasData(
