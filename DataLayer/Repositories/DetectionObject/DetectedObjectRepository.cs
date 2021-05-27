@@ -21,7 +21,7 @@ namespace DataLayer.Repositories.DetectedObjects
             return _objectSearchContext.SaveChanges() >= 0;
         }
 
-        public IEnumerable<DetectedObject> Get()
+        public IEnumerable<DetectedObject> Get(int? operationId = null)
         {
             var detectedObjects = _objectSearchContext.DetectedObjects
                 .Include(i => i.Image)
@@ -40,7 +40,10 @@ namespace DataLayer.Repositories.DetectedObjects
                 }
                 detectedObject.Operation = null;
             }
-            
+            if (operationId.HasValue)
+            {
+                detectedObjects = detectedObjects.Where(s => s.OperationId == operationId).ToList();
+            }
             return detectedObjects;
         }
 

@@ -8,7 +8,7 @@ namespace DataLayer.Repositories.DetectedObjects
     public interface IDetectedObjectRepository
     {
         bool SaveChanges();
-        IEnumerable<DetectedObject> Get();
+        IEnumerable<DetectedObject> Get(int? operationId = null);
         DetectedObject GetById(int id);
         void Create(DetectedObject detectedObject);
         void Delete(DetectedObject detectedObject);

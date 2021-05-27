@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.Repositories.Operations
 {
-    public class OperationsRepository:IOperationsRepository
+    public class OperationsRepository : IOperationsRepository
     {
         private readonly ObjectSearchContext _objectSearchContext;
 
@@ -21,12 +21,14 @@ namespace DataLayer.Repositories.Operations
             return _objectSearchContext.SaveChanges() >= 0;
         }
 
-        public IEnumerable<Operation> Get(bool? isSuccess=null, int? coordinatorId=null)
+        public IEnumerable<Operation> Get(bool? isSuccess = null, int? coordinatorId = null)
         {
-            var operations =  _objectSearchContext.Operations
+            var operations = _objectSearchContext.Operations
                 .Include(u => u.Users)
                     .ThenInclude(m => m.Missions)
                         .ThenInclude(o => o.DetectedObjects)
+                .Include(u => u.Users)
+                    .ThenInclude(m => m.UserPositions)
                 .Include(c => c.Coordinator)
                 .Include(t => t.Targets)
                 .ToList();
@@ -50,6 +52,10 @@ namespace DataLayer.Repositories.Operations
                         mission.User.FirstName = user.FirstName;
                         mission.User.SecondName = user.SecondName;
                     }
+                    foreach (var position in user.UserPositions)
+                    {
+                        position.User = null;
+                    }
                     user.Operations = null;
                     user.OperationUsers = null;
 
@@ -62,27 +68,32 @@ namespace DataLayer.Repositories.Operations
 
             if (isSuccess.HasValue)
             {
-                operations = operations.Where(s => s.IsSuccess == isSuccess ).ToList();
+                operations = operations.Where(s => s.IsSuccess == isSuccess).ToList();
+            }
+
+            foreach (var operation in operations)
+            {
+                foreach (var user in operation.Users)
+                {
+                    user.UserPositions = user.UserPositions.TakeLast(1).ToList();
+                }
             }
             if (coordinatorId.HasValue)
             {
                 operations = operations.Where(s => s.CoordinatorId == coordinatorId).ToList();
+
             }
+
             return operations;
         }
 
         public Operation GetById(int id)
         {
             var operation = _objectSearchContext.Operations
-                .Include(u => u.Users)
-                .Include(t => t.Targets)
                 .FirstOrDefault(p => p.Id == id);
             if (operation != null)
             {
-                foreach (var user in operation.Users)
-                {
-                    user.Operations = null;
-                }
+                operation.OperationUsers = null;
 
                 return operation;
             }

@@ -28,9 +28,9 @@ namespace ObjectSearchAPI.Controllers
             _mapper = mapper;
         }
         [HttpGet]
-        public ActionResult<IEnumerable<DetectedObject>> GetDetectedObjects()
+        public ActionResult<IEnumerable<DetectedObject>> GetDetectedObjects(int? operationId = null)
         {
-            var detectedObjects = _detectedObjectRepository.Get().ToList();
+            var detectedObjects = _detectedObjectRepository.Get(operationId).ToList();
             return Ok(detectedObjects);
         }
 
