@@ -24,7 +24,7 @@ namespace DataLayer.Repositories.Users
         public IEnumerable<User> Get()
         {
             var users = _objectSearchContext.Users
-                .Include()
+                //.Include()
                 .ToList();
 
             return users;

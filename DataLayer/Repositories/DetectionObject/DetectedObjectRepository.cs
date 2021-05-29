@@ -77,7 +77,7 @@ namespace DataLayer.Repositories.DetectedObjects
             return null;
         }
 
-        public void Create(DetectedObject detectedObjects)
+        public void Create(DetectedObject detectedObject)
         {
             if (detectedObject == null)
             {
