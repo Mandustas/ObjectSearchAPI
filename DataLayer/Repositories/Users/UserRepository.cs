@@ -7,7 +7,7 @@ using DataLayer.Models;
 
 namespace DataLayer.Repositories.Users
 {
-    class UserRepository:IUserRepository
+    public class UserRepository:IUserRepository
     {
         private readonly ObjectSearchContext _objectSearchContext;
 
@@ -29,6 +29,11 @@ namespace DataLayer.Repositories.Users
         {
             return _objectSearchContext.Users.FirstOrDefault(p => p.Id == id);
 
+        }
+
+        public User GetByLoginPassword(string userName, string password)
+        {
+            return _objectSearchContext.Users.FirstOrDefault(p => p.UserName == userName && p.PasswordHash == password);
         }
 
         public void Create(User user)

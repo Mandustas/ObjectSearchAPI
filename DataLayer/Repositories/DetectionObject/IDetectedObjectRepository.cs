@@ -9,6 +9,7 @@ namespace DataLayer.Repositories.DetectedObjects
     {
         bool SaveChanges();
         IEnumerable<DetectedObject> Get();
+        IEnumerable<DetectedObject> GetByUserId(int id);
         DetectedObject GetById(int id);
         void Create(DetectedObject detectedObject);
         void Delete(DetectedObject detectedObject);

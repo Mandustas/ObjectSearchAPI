@@ -57,6 +57,23 @@ namespace DataLayer.Repositories.DetectedObjects
             return null;
         }
 
+        public IEnumerable<DetectedObject> GetByUserId(int id)
+        {
+            var detectedObject = _objectSearchContext.DetectedObjects
+                .Include(m => m.Mission)
+                .Where(p => p.Mission.UserId == id)
+                .ToList();
+            foreach(var obj in detectedObject)
+            {
+                obj.Mission.DetectedObjects = null;
+            }
+            if (detectedObject != null)
+            {
+                return detectedObject;
+            }
+            return null;
+        }
+
         public void Create(DetectedObject detectedObjects)
         {
             if (detectedObjects == null)

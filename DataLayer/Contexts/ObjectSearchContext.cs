@@ -217,7 +217,7 @@ namespace DataLayer.Contexts
                     new User { Id = 1, FirstName="Андрей", SecondName="Подоляко", MiddleName = "Алексеевич", IsBusy=false , UserRoleId = 3, UserStatusId = 1},
                     new User { Id = 2, FirstName="Максим", SecondName="Кириченко", MiddleName = "Сергеевич", IsBusy=false , UserRoleId = 4, UserStatusId = 1},
                     new User { Id = 3, FirstName="Дмитрий", SecondName="Иванович", MiddleName = "Булатицкий", IsBusy=false , UserRoleId = 2, UserStatusId = 1},
-                    new User { Id = 4, FirstName="Андрей", SecondName="Селифонтов",MiddleName = "", IsBusy=false , UserRoleId = 4, UserStatusId = 1}
+                    new User { Id = 4, FirstName="Андрей", SecondName="Селифонтов",MiddleName = "Александрович", IsBusy=false , UserRoleId = 4, UserStatusId = 1, UserName = "Andreog", PasswordHash="qwerty123"}
                 });
 
             modelBuilder.Entity<Operation>().HasData(

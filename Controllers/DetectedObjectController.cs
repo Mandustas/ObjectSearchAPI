@@ -46,6 +46,18 @@ namespace ObjectSearchAPI.Controllers
             return NotFound();
         }
 
+        [HttpGet("user", Name = "GetDetectedObjectByUserId")]
+        public ActionResult<IEnumerable<DetectedObject>> GetDetectedObjectByUserId(int id)
+        {
+            var detectedObject = _detectedObjectRepository.GetByUserId(id);
+            if (detectedObject != null)
+            {
+                return Ok(detectedObject);
+            }
+
+            return NotFound();
+        }
+
         [HttpPost]
         public ActionResult<DetectedObjectCreateDto> CreateDetectedObject(DetectedObjectCreateDto detectedObjectCreateDto)
         {

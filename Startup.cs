@@ -18,6 +18,9 @@ using Microsoft.EntityFrameworkCore;
 using DataLayer.Repositories.DetectedObjects;
 using DataLayer.Repositories.Images;
 using DataLayer.Repositories.Missions;
+using Microsoft.AspNetCore.Identity;
+using DataLayer.Models;
+using DataLayer.Repositories.Users;
 
 namespace ObjectSearchAPI
 {
@@ -36,6 +39,8 @@ namespace ObjectSearchAPI
             services.AddCors();
 
             services.AddDbContext<ObjectSearchContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("Default")));
+            services.AddIdentity<User, IdentityRole>().
+                AddEntityFrameworkStores<ObjectSearchContext>();
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen(c =>
@@ -48,6 +53,7 @@ namespace ObjectSearchAPI
             services.AddScoped<ITargetRepository, TargetRepository>();
             services.AddScoped<IImageRepository, ImageRepository>();
             services.AddScoped<IMissionRepository, MissionRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,7 +77,9 @@ namespace ObjectSearchAPI
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseAuthentication();
+
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

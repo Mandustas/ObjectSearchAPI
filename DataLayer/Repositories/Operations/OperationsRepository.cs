@@ -90,6 +90,15 @@ namespace DataLayer.Repositories.Operations
             return null;
         }
 
+        public Operation GetByUserId(int? userId=null)
+        {
+            var operationUser = _objectSearchContext.OperationUser.FirstOrDefault(p => p.UserId == userId);
+            if (operationUser == null) return null;
+            var operation = _objectSearchContext.Operations.FirstOrDefault(p => p.Id == operationUser.OperationId);
+            return operation;
+            
+        }
+
         public void Create(Operation operation)
         {
             if (operation == null)

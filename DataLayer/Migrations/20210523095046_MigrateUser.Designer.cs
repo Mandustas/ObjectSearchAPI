@@ -4,14 +4,16 @@ using DataLayer.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(ObjectSearchContext))]
-    partial class ObjectSearchContextModelSnapshot : ModelSnapshot
+    [Migration("20210523095046_MigrateUser")]
+    partial class MigrateUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -629,7 +631,7 @@ namespace DataLayer.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3861cc0a-df00-41f0-a3bf-3bf052892d63",
+                            ConcurrencyStamp = "16299180-38a0-4824-86be-def462bcc58a",
                             EmailConfirmed = false,
                             FirstName = "Андрей",
                             IsBusy = false,
@@ -637,7 +639,7 @@ namespace DataLayer.Migrations
                             MiddleName = "Алексеевич",
                             PhoneNumberConfirmed = false,
                             SecondName = "Подоляко",
-                            SecurityStamp = "349afde9-e2f2-469a-b283-6550776db246",
+                            SecurityStamp = "e1500919-5d3c-43c0-9ad4-35d5d0bf59cd",
                             TwoFactorEnabled = false,
                             UserRoleId = 3,
                             UserStatusId = 1
@@ -646,7 +648,7 @@ namespace DataLayer.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9b997da0-3884-4481-b889-644575fde064",
+                            ConcurrencyStamp = "f52e50e0-38ca-4d0a-b600-c7d4f0ca74ae",
                             EmailConfirmed = false,
                             FirstName = "Максим",
                             IsBusy = false,
@@ -654,7 +656,7 @@ namespace DataLayer.Migrations
                             MiddleName = "Сергеевич",
                             PhoneNumberConfirmed = false,
                             SecondName = "Кириченко",
-                            SecurityStamp = "51fa7c33-847b-45e4-911b-99b324a95aa7",
+                            SecurityStamp = "62e92db4-e85d-4831-99bb-56a9308f1ec5",
                             TwoFactorEnabled = false,
                             UserRoleId = 4,
                             UserStatusId = 1
@@ -663,7 +665,7 @@ namespace DataLayer.Migrations
                         {
                             Id = 3,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "99e75160-6b93-4958-82fc-34814d7c19c6",
+                            ConcurrencyStamp = "e021c2b0-6629-4e33-ab02-7bdc9a0c040e",
                             EmailConfirmed = false,
                             FirstName = "Дмитрий",
                             IsBusy = false,
@@ -671,7 +673,7 @@ namespace DataLayer.Migrations
                             MiddleName = "Булатицкий",
                             PhoneNumberConfirmed = false,
                             SecondName = "Иванович",
-                            SecurityStamp = "5862cf7d-b274-490d-a03e-9373c33b56db",
+                            SecurityStamp = "cdf70bc4-0284-4d25-9b28-b1fd78334a62",
                             TwoFactorEnabled = false,
                             UserRoleId = 2,
                             UserStatusId = 1
@@ -680,18 +682,16 @@ namespace DataLayer.Migrations
                         {
                             Id = 4,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "13b89019-0a4e-4902-8b10-13dae2769ea0",
+                            ConcurrencyStamp = "8cd590ad-4b9b-43a2-bfc0-ec9f52c8f453",
                             EmailConfirmed = false,
                             FirstName = "Андрей",
                             IsBusy = false,
                             LockoutEnabled = false,
-                            MiddleName = "Александрович",
-                            PasswordHash = "qwerty123",
+                            MiddleName = "",
                             PhoneNumberConfirmed = false,
                             SecondName = "Селифонтов",
-                            SecurityStamp = "656e1d20-8bda-4332-9220-0477dbb51eaf",
+                            SecurityStamp = "29b43822-4bbc-47a0-93de-8610507c0633",
                             TwoFactorEnabled = false,
-                            UserName = "Andreog",
                             UserRoleId = 4,
                             UserStatusId = 1
                         });

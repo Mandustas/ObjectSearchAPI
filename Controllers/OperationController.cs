@@ -59,6 +59,21 @@ namespace ObjectSearchAPI.Controllers
             return NotFound();
         }
 
+        [HttpGet("activeUser", Name = "GetActiveOperationUser")]
+        public ActionResult<OperationDTO> GetActiveOperationUser(int? userId)
+        {
+            var operation = _operationsRepository.GetByUserId(userId);
+            if (operation != null)
+            {
+                OperationDTO opDto = new OperationDTO(operation);
+                return Ok(opDto);
+            }
+
+            return NotFound();
+        }
+
+
+
         [HttpPost]
         public ActionResult<OperationsCreateDto> CreateOperation(OperationsCreateDto operationsCreateDto)
         {

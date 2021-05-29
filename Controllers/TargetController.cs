@@ -43,6 +43,16 @@ namespace ObjectSearchAPI.Controllers
             return Ok(targets);
         }
 
+        [HttpGet("User/{iduser}", Name = "GetForUser")]
+        public ActionResult<IEnumerable<Target>> GetForUser(int iduser)
+        {
+            var targets = _targetRepository.GetByUserId(iduser);
+            if (targets != null)
+                return Ok(targets);
+            else
+                return NotFound();
+        }
+
         [HttpGet("{id}", Name = "GetTargetById")]
         public ActionResult<Target> GetTargetById(int id)
         {

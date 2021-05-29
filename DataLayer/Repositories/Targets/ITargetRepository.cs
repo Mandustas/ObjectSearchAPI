@@ -10,6 +10,7 @@ namespace DataLayer.Repositories.Targets
         bool SaveChanges();
 
         IEnumerable<Models.Target> Get();
+        IEnumerable<Models.Target> GetByUserId(int id);
         Target GetById(int id);
         void Create(Target target);
         void Delete(Target target);

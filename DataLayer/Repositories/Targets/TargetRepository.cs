@@ -25,6 +25,13 @@ namespace DataLayer.Repositories.Targets
             return _objectSearchContext.Targets.ToList();
         }
 
+        public IEnumerable<Target> GetByUserId(int id)
+        {
+            var operationUser = _objectSearchContext.OperationUser.FirstOrDefault(p => p.UserId == id);
+            if (operationUser == null) return null;
+            return _objectSearchContext.Targets.Where(p => p.OperationId == operationUser.OperationId).ToList();
+        }
+
         public Target GetById(int id)
         {
             return _objectSearchContext.Targets.FirstOrDefault(p => p.Id == id);

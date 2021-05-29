@@ -10,6 +10,7 @@ namespace DataLayer.Repositories.Operations
         bool SaveChanges();
         IEnumerable<Operation> Get(bool? isSuccess = null, int? coordinatorId = null);
         Operation GetById(int id);
+        Operation GetByUserId(int? userId);
         void Create(Operation operation);
         void Delete(Operation operation);
         void Update(Operation operation);
