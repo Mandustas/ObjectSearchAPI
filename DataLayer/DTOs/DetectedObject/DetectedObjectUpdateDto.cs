@@ -9,13 +9,9 @@ namespace DataLayer.DTOs.DetectedObjects
     {
         [Required]
         public string Title { get; set; }
+        [Required]
         public string Description { get; set; }
-        [Required]
-        [MaxLength(50)]
-        public string X { get; set; }
-        [Required]
-        [MaxLength(50)]
-        public string Y { get; set; }
         public int? MissionId { get; set; }
+        public bool IsDesired { get; set; }
     }
 }

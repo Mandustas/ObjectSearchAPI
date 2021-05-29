@@ -206,8 +206,9 @@ namespace DataLayer.Contexts
             modelBuilder.Entity<UserStatus>().HasData(
                 new UserStatus[]
                 {
-                    new UserStatus { Id = 1, Title = "Активен" },
-                    new UserStatus { Id = 2, Title = "Неактивен" }
+                    new UserStatus { Id = 1, Title = "Кандидат в участники" },
+                    new UserStatus { Id = 2, Title = "Доброволец" }, // TODO: изменить статусы
+                    new UserStatus { Id = 3, Title = "Сотрудник" } // TODO: изменить статусы
                 });
 
 

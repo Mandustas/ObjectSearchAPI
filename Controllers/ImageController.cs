@@ -18,13 +18,18 @@ namespace ObjectSearchAPI.Controllers
     public class ImageController : ControllerBase
     {
         private readonly IImageRepository _imageRepository;
+        private readonly IDetectedObjectRepository _detectedObjectRepository;
+
         private readonly IMapper _mapper;
         public ImageController(
             IImageRepository imageRepository,
+            IDetectedObjectRepository detectedObjectRepository,
+
             IMapper mapper
             )
         {
             _imageRepository = imageRepository;
+            _detectedObjectRepository = detectedObjectRepository;
             _mapper = mapper;
         }
         [HttpGet]
@@ -32,6 +37,59 @@ namespace ObjectSearchAPI.Controllers
         {
             var images = _imageRepository.Get(OperationId).ToList();
             return Ok(images);
+        }
+
+
+        [HttpPost]
+        public ActionResult<IEnumerable<DetectedObjectWithImagesCreateDto>> CreateImagesAndObjects(IEnumerable<DetectedObjectWithImagesCreateDto> detectedObjectCreateDtos)
+        {
+            List<DetectedObject> detectedObjects = new List<DetectedObject>();
+            Cycle cycle = new Cycle
+            {
+                Title = "Облет",
+                Description = "Автоматически созданный облет",
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now,
+                OperationId = 1, //TODO: Заменить Id операции
+
+            };
+
+            foreach (var obj in detectedObjectCreateDtos.ToList())
+            {
+
+                //detectedObjects.Add(
+                    
+                //);
+                _detectedObjectRepository.Create(new DetectedObject
+                {
+                    Description = "",
+                    Title = "",
+                    X = obj.X,
+                    Y = obj.Y,
+                    IsDesired = false,
+                    OperationId = 1, //TODO: Заменить Id операции
+
+                    Image = new Image
+                    {
+                        Path = obj.Image.Path,
+                        Cycle = cycle,
+                        QtyFindObject = 1,
+                        QtyVerifiedObject = 1,
+                        TimeCreate = DateTime.Now
+
+                    },
+                    ImageMarkedUp = new Image
+                    {
+                        Path = obj.ImageMarkedUp.Path,
+                        Cycle = cycle,
+                        QtyFindObject = 1,
+                        QtyVerifiedObject = 1,
+                        TimeCreate = DateTime.Now
+                    },
+                });
+            }
+            _detectedObjectRepository.SaveChanges();
+            return null;
         }
     }
 }

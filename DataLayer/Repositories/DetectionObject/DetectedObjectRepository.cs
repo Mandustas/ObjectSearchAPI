@@ -21,7 +21,7 @@ namespace DataLayer.Repositories.DetectedObjects
             return _objectSearchContext.SaveChanges() >= 0;
         }
 
-        public IEnumerable<DetectedObject> Get()
+        public IEnumerable<DetectedObject> Get(int? operationId = null)
         {
             var detectedObjects = _objectSearchContext.DetectedObjects
                 .Include(i => i.Image)
@@ -40,7 +40,10 @@ namespace DataLayer.Repositories.DetectedObjects
                 }
                 detectedObject.Operation = null;
             }
-            
+            if (operationId.HasValue)
+            {
+                detectedObjects = detectedObjects.Where(s => s.OperationId == operationId).ToList();
+            }
             return detectedObjects;
         }
 
@@ -76,20 +79,20 @@ namespace DataLayer.Repositories.DetectedObjects
 
         public void Create(DetectedObject detectedObjects)
         {
-            if (detectedObjects == null)
+            if (detectedObject == null)
             {
-                throw new ArgumentNullException(nameof(detectedObjects));
+                throw new ArgumentNullException(nameof(detectedObject));
             }
-            _objectSearchContext.Add(detectedObjects);
+            _objectSearchContext.Add(detectedObject);
         }
 
-        public void Delete(DetectedObject detectedObjects)
+        public void Delete(DetectedObject detectedObject)
         {
-            if (detectedObjects == null)
+            if (detectedObject == null)
             {
-                throw new ArgumentNullException(nameof(detectedObjects));
+                throw new ArgumentNullException(nameof(detectedObject));
             }
-            _objectSearchContext.Remove(detectedObjects);
+            _objectSearchContext.Remove(detectedObject);
         }
 
         public void Update(DetectedObject detectedObjects)

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using DataLayer.Contexts;
 using DataLayer.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.Repositories.Users
 {
@@ -22,13 +23,16 @@ namespace DataLayer.Repositories.Users
 
         public IEnumerable<User> Get()
         {
-            return _objectSearchContext.Users.ToList();
+            var users = _objectSearchContext.Users
+                .Include()
+                .ToList();
+
+            return users;
         }
 
         public User GetById(int id)
         {
             return _objectSearchContext.Users.FirstOrDefault(p => p.Id == id);
-
         }
 
         public User GetByLoginPassword(string userName, string password)

@@ -6,17 +6,16 @@ using System.Text;
 
 namespace DataLayer.DTOs.DetectedObjects
 {
-    public class DetectedObjectCreateDto
+    public class DetectedObjectWithImagesCreateDto
     {
-        [Required]
-        public string Title { get; set; }
-        public string Description { get; set; }
         [Required]
         [MaxLength(50)]
         public string X { get; set; }
         [Required]
         [MaxLength(50)]
         public string Y { get; set; }
-        public int OperationId { get; set; }
+        public int TypeId { get; set; }
+        public ImageObjectCreateDto Image { get; set; } = null!;
+        public ImageObjectCreateDto ImageMarkedUp { get; set; } = null!;
     }
 }
