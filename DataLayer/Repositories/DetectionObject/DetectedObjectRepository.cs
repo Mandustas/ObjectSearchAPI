@@ -60,22 +60,22 @@ namespace DataLayer.Repositories.DetectedObjects
             return null;
         }
 
-        public void Create(DetectedObject detectedObjects)
+        public void Create(DetectedObject detectedObject)
         {
-            if (detectedObjects == null)
+            if (detectedObject == null)
             {
-                throw new ArgumentNullException(nameof(detectedObjects));
+                throw new ArgumentNullException(nameof(detectedObject));
             }
-            _objectSearchContext.Add(detectedObjects);
+            _objectSearchContext.Add(detectedObject);
         }
 
-        public void Delete(DetectedObject detectedObjects)
+        public void Delete(DetectedObject detectedObject)
         {
-            if (detectedObjects == null)
+            if (detectedObject == null)
             {
-                throw new ArgumentNullException(nameof(detectedObjects));
+                throw new ArgumentNullException(nameof(detectedObject));
             }
-            _objectSearchContext.Remove(detectedObjects);
+            _objectSearchContext.Remove(detectedObject);
         }
 
         public void Update(DetectedObject detectedObjects)

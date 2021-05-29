@@ -12,5 +12,6 @@ namespace DataLayer.DTOs.DetectedObjects
         [Required]
         public string Description { get; set; }
         public int? MissionId { get; set; }
+        public bool IsDesired { get; set; }
     }
 }

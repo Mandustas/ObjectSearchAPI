@@ -24,6 +24,7 @@ namespace DataLayer.Repositories.Operations
         public IEnumerable<Operation> Get(bool? isSuccess = null, int? coordinatorId = null)
         {
             var operations = _objectSearchContext.Operations
+                
                 .Include(u => u.Users)
                     .ThenInclude(m => m.Missions)
                         .ThenInclude(o => o.DetectedObjects)
