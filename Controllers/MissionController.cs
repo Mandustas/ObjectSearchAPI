@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DataLayer.Models;
 using DataLayer.Repositories.Missions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ namespace ObjectSearchAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
+
     public class MissionController : ControllerBase
     {
         private readonly IMissionRepository _missionRepository;
@@ -26,7 +29,6 @@ namespace ObjectSearchAPI.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/<ValuesController>
         [HttpGet]
         public ActionResult<Mission> GetMissions()
         {
@@ -35,7 +37,6 @@ namespace ObjectSearchAPI.Controllers
             return Ok(missions);
         }
 
-        // GET api/<ValuesController>/5
         [HttpGet("{id}", Name = "GetMissionById")]
         public ActionResult<Target> GetMissionById(int id)
         {
@@ -48,8 +49,8 @@ namespace ObjectSearchAPI.Controllers
             return NotFound();
         }
 
-        // POST api/<ValuesController>
         [HttpPost]
+        [Authorize (Roles = "Координатор ПСР")]
         public ActionResult<MissionCreateDto> CreateMission(MissionCreateDto missionCreateDto)
         {
             var mission = _mapper.Map<Mission>(missionCreateDto);
@@ -60,14 +61,7 @@ namespace ObjectSearchAPI.Controllers
             return CreatedAtRoute(nameof(GetMissionById), new { Id = missionReadDto.Id }, missionReadDto); //Return 201
         }
 
-        // PUT api/<ValuesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-
-        }
-
-        // DELETE api/<ValuesController>/5
+        [Authorize(Roles = "Координатор ПСР")]
         [HttpDelete("{id}")]
         public ActionResult DeleteMission(int id)
         {

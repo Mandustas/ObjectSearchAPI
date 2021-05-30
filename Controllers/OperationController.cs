@@ -7,6 +7,7 @@ using AutoMapper;
 using DataLayer.DTOs.Operation;
 using DataLayer.Models;
 using DataLayer.Repositories.Operations;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,6 +15,7 @@ namespace ObjectSearchAPI.Controllers
 {
     [Route("api/operation")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class OperationController : ControllerBase
     {
         private readonly IOperationsRepository _operationsRepository;
@@ -74,6 +76,8 @@ namespace ObjectSearchAPI.Controllers
 
 
 
+        [Authorize(Roles = "Координатор ПСР")]
+
         [HttpPost]
         public ActionResult<OperationsCreateDto> CreateOperation(OperationsCreateDto operationsCreateDto)
         {
@@ -88,7 +92,7 @@ namespace ObjectSearchAPI.Controllers
 
             return CreatedAtRoute(nameof(GetOperationById), new { Id = operationsReadDto.Id }, operationsReadDto); //Return 201
         }
-
+        [Authorize(Roles = "Координатор ПСР")]
         [HttpPut("{id}")]
         public ActionResult<Operation> UpdateOperation(int id, OperationsUpdateDto operationsUpdateDto)
         {
@@ -104,6 +108,7 @@ namespace ObjectSearchAPI.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Координатор ПСР")]
         [HttpDelete("{id}")]
         public ActionResult DeleteOperation(int id)
         {

@@ -34,10 +34,18 @@ namespace DataLayer.Repositories.Users
         {
             return _objectSearchContext.Users.FirstOrDefault(p => p.Id == id);
         }
+        public IEnumerable<UserRole> GetRoles()
+        {
+            return _objectSearchContext.UserRoles.ToList();
 
+        }
         public User GetByLoginPassword(string userName, string password)
         {
-            return _objectSearchContext.Users.FirstOrDefault(p => p.UserName == userName && p.PasswordHash == password);
+            var user = _objectSearchContext.Users
+                .Include(r => r.UserRole)
+                .FirstOrDefault(p => p.UserName == userName && p.PasswordHash == password);
+            user.UserRole.Users = null;
+            return user;
         }
 
         public void Create(User user)
@@ -62,5 +70,7 @@ namespace DataLayer.Repositories.Users
         {
             //nothing
         }
+
+
     }
 }

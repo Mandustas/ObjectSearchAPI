@@ -3,10 +3,12 @@ using DataLayer.DTOs.DetectedObjects;
 using DataLayer.Models;
 using DataLayer.Repositories.DetectedObjects;
 using DataLayer.Repositories.Missions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -15,10 +17,12 @@ namespace ObjectSearchAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class DetectedObjectController : ControllerBase
     {
         private readonly IDetectedObjectRepository _detectedObjectRepository;
         private readonly IMapper _mapper;
+        private int UserId => int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
         public DetectedObjectController(
             IDetectedObjectRepository detectedObjectRepository,
             IMapper mapper
@@ -30,6 +34,7 @@ namespace ObjectSearchAPI.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<DetectedObject>> GetDetectedObjects(int? operationId = null)
         {
+
             var detectedObjects = _detectedObjectRepository.Get(operationId).ToList();
             return Ok(detectedObjects);
         }
@@ -59,6 +64,7 @@ namespace ObjectSearchAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Координатор ПСР")]
         public ActionResult<DetectedObjectCreateDto> CreateDetectedObject(DetectedObjectCreateDto detectedObjectCreateDto)
         {
             var detectedObject = _mapper.Map<DetectedObject>(detectedObjectCreateDto);
@@ -74,6 +80,8 @@ namespace ObjectSearchAPI.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Координатор ПСР, Участник ПСР")]
+
         public ActionResult<DetectedObject> UpdateDetectedObject(int id, DetectedObjectUpdateDto detectedObjectUpdateDto)
         {
             var detectedObject = _detectedObjectRepository.GetById(id);
@@ -89,6 +97,7 @@ namespace ObjectSearchAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Координатор ПСР")]
         public ActionResult DeleteDetectedObject(int id)
         {
             var detectedObject = _detectedObjectRepository.GetById(id);

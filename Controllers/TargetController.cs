@@ -5,6 +5,7 @@ using System.Linq;
 using AutoMapper;
 using DataLayer.Models;
 using DataLayer.Repositories.Targets;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,6 +13,7 @@ namespace ObjectSearchAPI.Controllers
 {
     [Route("api/target")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
 
 
     public class TargetController : ControllerBase
@@ -65,6 +67,7 @@ namespace ObjectSearchAPI.Controllers
             return NotFound();
         }
 
+        [Authorize(Roles = "Координатор ПСР")]
         [HttpPost]
         public ActionResult<TargetCreateDto> CreateTarget(TargetCreateDto targetCreateDto)
         {
@@ -81,6 +84,8 @@ namespace ObjectSearchAPI.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Координатор ПСР")]
+
         public ActionResult<Target> UpdateTarget(int id, TargetUpdateDto targetUpdateDto)
         {
             var target = _targetRepository.GetById(id);
@@ -95,6 +100,7 @@ namespace ObjectSearchAPI.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Координатор ПСР")]
         [HttpDelete("{id}")]
         public ActionResult DeleteTarget(int id)
         {

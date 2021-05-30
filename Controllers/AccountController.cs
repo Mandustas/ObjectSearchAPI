@@ -35,7 +35,7 @@ namespace ObjectSearchAPI.Controllers
         }
 
 
-        [HttpGet]
+        [HttpPost]
         public ActionResult<User> GetByLoginAndPassword(string username, string password)
         {
             User user = _userRepository.GetByLoginPassword(username, password);

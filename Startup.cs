@@ -1,16 +1,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using DataLayer.Contexts;
 using DataLayer.Repositories.Operations;
 using DataLayer.Repositories.Targets;
@@ -21,6 +15,7 @@ using DataLayer.Repositories.Missions;
 using Microsoft.AspNetCore.Identity;
 using DataLayer.Models;
 using DataLayer.Repositories.Users;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace ObjectSearchAPI
 {
@@ -37,7 +32,25 @@ namespace ObjectSearchAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
+            var authOptions = Configuration.GetSection("Auth").Get<AuthOptions.AuthOptions>();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = authOptions.Issuer,
 
+                        ValidateAudience = true,
+                        ValidAudience = authOptions.Audience,
+
+                        ValidateLifetime = true,
+                        IssuerSigningKey = authOptions.GetSymmetricSecurityKey(), //HS256
+
+                        ValidateIssuerSigningKey = true,
+                    };
+                });
             services.AddDbContext<ObjectSearchContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("Default")));
             services.AddIdentity<User, IdentityRole>().
                 AddEntityFrameworkStores<ObjectSearchContext>();
@@ -79,7 +92,7 @@ namespace ObjectSearchAPI
 
             app.UseAuthentication();
 
-            //app.UseAuthorization();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
