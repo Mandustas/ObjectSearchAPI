@@ -629,7 +629,7 @@ namespace DataLayer.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3861cc0a-df00-41f0-a3bf-3bf052892d63",
+                            ConcurrencyStamp = "5b323cb3-6875-4419-a1ad-834cc31941c2",
                             EmailConfirmed = false,
                             FirstName = "Андрей",
                             IsBusy = false,
@@ -637,7 +637,7 @@ namespace DataLayer.Migrations
                             MiddleName = "Алексеевич",
                             PhoneNumberConfirmed = false,
                             SecondName = "Подоляко",
-                            SecurityStamp = "349afde9-e2f2-469a-b283-6550776db246",
+                            SecurityStamp = "168c5ad1-a0a7-4f42-b2b0-30b4611c59b5",
                             TwoFactorEnabled = false,
                             UserRoleId = 3,
                             UserStatusId = 1
@@ -646,7 +646,7 @@ namespace DataLayer.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9b997da0-3884-4481-b889-644575fde064",
+                            ConcurrencyStamp = "467d005f-d3f6-494e-bed0-ca6c8a4a1916",
                             EmailConfirmed = false,
                             FirstName = "Максим",
                             IsBusy = false,
@@ -654,7 +654,7 @@ namespace DataLayer.Migrations
                             MiddleName = "Сергеевич",
                             PhoneNumberConfirmed = false,
                             SecondName = "Кириченко",
-                            SecurityStamp = "51fa7c33-847b-45e4-911b-99b324a95aa7",
+                            SecurityStamp = "1b90e5a5-5cbc-4870-89b7-76d7f0d7fab2",
                             TwoFactorEnabled = false,
                             UserRoleId = 4,
                             UserStatusId = 1
@@ -663,7 +663,7 @@ namespace DataLayer.Migrations
                         {
                             Id = 3,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "99e75160-6b93-4958-82fc-34814d7c19c6",
+                            ConcurrencyStamp = "f6bf1f3f-3425-442a-9ed7-b22a71beda63",
                             EmailConfirmed = false,
                             FirstName = "Дмитрий",
                             IsBusy = false,
@@ -671,7 +671,7 @@ namespace DataLayer.Migrations
                             MiddleName = "Булатицкий",
                             PhoneNumberConfirmed = false,
                             SecondName = "Иванович",
-                            SecurityStamp = "5862cf7d-b274-490d-a03e-9373c33b56db",
+                            SecurityStamp = "7bf6a74c-41ce-47f2-bee7-e377760e8865",
                             TwoFactorEnabled = false,
                             UserRoleId = 2,
                             UserStatusId = 1
@@ -680,7 +680,7 @@ namespace DataLayer.Migrations
                         {
                             Id = 4,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "13b89019-0a4e-4902-8b10-13dae2769ea0",
+                            ConcurrencyStamp = "07784f67-e794-4b47-b400-b43a15d98d4a",
                             EmailConfirmed = false,
                             FirstName = "Андрей",
                             IsBusy = false,
@@ -689,7 +689,7 @@ namespace DataLayer.Migrations
                             PasswordHash = "qwerty123",
                             PhoneNumberConfirmed = false,
                             SecondName = "Селифонтов",
-                            SecurityStamp = "656e1d20-8bda-4332-9220-0477dbb51eaf",
+                            SecurityStamp = "d8b85405-1af4-4f9c-976c-0a4d6d630ed4",
                             TwoFactorEnabled = false,
                             UserName = "Andreog",
                             UserRoleId = 4,
@@ -843,12 +843,17 @@ namespace DataLayer.Migrations
                         new
                         {
                             Id = 1,
-                            Title = "Активен"
+                            Title = "Кандидат в участники"
                         },
                         new
                         {
                             Id = 2,
-                            Title = "Неактивен"
+                            Title = "Доброволец"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Title = "Сотрудник"
                         });
                 });
 
