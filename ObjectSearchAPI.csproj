@@ -1,14 +1,29 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <GenerateAssemblyConfigurationAttribute> false </GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute> false </GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute> false </GenerateAssemblyProductAttribute>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="AuthAPI\**" />
+    <Compile Remove="AuthOptions\**" />
     <Compile Remove="DataLayer\**" />
+    <Content Remove="AuthAPI\**" />
+    <Content Remove="AuthOptions\**" />
     <Content Remove="DataLayer\**" />
+    <EmbeddedResource Remove="AuthAPI\**" />
+    <EmbeddedResource Remove="AuthOptions\**" />
     <EmbeddedResource Remove="DataLayer\**" />
+    <None Remove="AuthAPI\**" />
+    <None Remove="AuthOptions\**" />
     <None Remove="DataLayer\**" />
+    <Compile Remove="Properties\AssemblyInfo.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="AuthOptions\AuthOptions.csproj" />
     <ProjectReference Include="DataLayer\DataLayer.csproj" />
   </ItemGroup>
 

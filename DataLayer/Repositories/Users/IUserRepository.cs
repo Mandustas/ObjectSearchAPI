@@ -11,6 +11,7 @@ namespace DataLayer.Repositories.Users
 
         IEnumerable<Models.User> Get();
         User GetById(int id);
+        IEnumerable<Models.UserRole> GetRoles();
         User GetByLoginPassword(string userName, string password);
         void Create(User user);
         void Delete(User user);

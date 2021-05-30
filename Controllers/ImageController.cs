@@ -3,10 +3,12 @@ using DataLayer.DTOs.DetectedObjects;
 using DataLayer.Models;
 using DataLayer.Repositories.DetectedObjects;
 using DataLayer.Repositories.Images;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -14,13 +16,14 @@ using System.Threading.Tasks;
 namespace ObjectSearchAPI.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     public class ImageController : ControllerBase
     {
+        private int UserId => int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
         private readonly IImageRepository _imageRepository;
         private readonly IDetectedObjectRepository _detectedObjectRepository;
 
-        private readonly IMapper _mapper;
         public ImageController(
             IImageRepository imageRepository,
             IDetectedObjectRepository detectedObjectRepository,
@@ -30,7 +33,6 @@ namespace ObjectSearchAPI.Controllers
         {
             _imageRepository = imageRepository;
             _detectedObjectRepository = detectedObjectRepository;
-            _mapper = mapper;
         }
         [HttpGet]
         public ActionResult<IEnumerable<Image>> GetImages(int? OperationId = null)
