@@ -20,11 +20,46 @@ namespace DataLayer.Repositories.Operations
         {
             return _objectSearchContext.SaveChanges() >= 0;
         }
-
-        public IEnumerable<Operation> Get(bool? isSuccess = null, int? coordinatorId = null)
+        public int GetActiveOperationId(int? coordinatorId = null)
+        {
+            var operation = _objectSearchContext.Operations.Where(a => a.IsSuccess == false).FirstOrDefault(p => p.CoordinatorId == coordinatorId);
+            return operation.Id;
+        }
+        public IEnumerable<Operation> Get(int? coordinatorId = null)
         {
             var operations = _objectSearchContext.Operations
-                
+                .Where(c => c.CoordinatorId == coordinatorId)
+                .Include(u => u.Users)
+                .Include(c => c.Coordinator)
+                .Include(t => t.Targets)
+                .ToList();
+            if (operations != null)
+            {
+                foreach (var operation in operations) // TODO find a way to return operations without user.operations (DBO???) cycle links
+                {
+                    operation.OperationUsers = null;
+                    operation.Coordinator.СontrolledOperations = null;
+                    foreach (var user in operation.Users)
+                    {
+                        user.Operations = null;
+                        user.OperationUsers = null;
+                    }
+                    foreach (var target in operation.Targets)
+                    {
+                        target.Operation = null;
+                    }
+
+                }
+            }
+
+            return operations;
+        }
+
+        public Operation GetActiveOperation(int? coordinatorId = null)
+        {
+            var operation = _objectSearchContext.Operations
+                .Where(c => c.CoordinatorId == coordinatorId)
+                .Where(c => c.IsSuccess == false)
                 .Include(u => u.Users)
                     .ThenInclude(m => m.Missions)
                         .ThenInclude(o => o.DetectedObjects)
@@ -32,10 +67,19 @@ namespace DataLayer.Repositories.Operations
                     .ThenInclude(m => m.UserPositions)
                 .Include(c => c.Coordinator)
                 .Include(t => t.Targets)
-                .ToList();
+                .FirstOrDefault();
 
-            foreach (var operation in operations) // TODO find a way to return operations without user.operations (DBO???)
+            if (operation != null)
             {
+                if (operation.Missions != null)
+                {
+                    foreach (var mission1 in operation.Missions)
+                    {
+                        mission1.Operation = null;
+                        mission1.User = null;
+                    }
+                }
+                
                 operation.OperationUsers = null;
                 operation.Coordinator.СontrolledOperations = null;
                 foreach (var user in operation.Users)
@@ -61,31 +105,25 @@ namespace DataLayer.Repositories.Operations
                     user.OperationUsers = null;
 
                 }
+                foreach (var user in operation.Users)
+                {
+                    user.Missions = user.Missions.Where(o => o.OperationId == operation.Id).ToList();
+                    foreach (var mission in user.Missions)
+                    {
+                        mission.DetectedObjects = mission.DetectedObjects.Where(o => o.OperationId == operation.Id).ToList();
+                    }
+                }
                 foreach (var target in operation.Targets)
                 {
                     target.Operation = null;
                 }
-            }
 
-            if (isSuccess.HasValue)
-            {
-                operations = operations.Where(s => s.IsSuccess == isSuccess).ToList();
-            }
-
-            foreach (var operation in operations)
-            {
                 foreach (var user in operation.Users)
                 {
                     user.UserPositions = user.UserPositions.TakeLast(1).ToList();
                 }
             }
-            if (coordinatorId.HasValue)
-            {
-                operations = operations.Where(s => s.CoordinatorId == coordinatorId).ToList();
-
-            }
-
-            return operations;
+            return operation;
         }
 
         public Operation GetById(int id)
@@ -102,15 +140,26 @@ namespace DataLayer.Repositories.Operations
             return null;
         }
 
-        public Operation GetByUserId(int? userId=null)
+        public Operation GetByUserId(int? userId = null)
         {
             var operationUser = _objectSearchContext.OperationUser.FirstOrDefault(p => p.UserId == userId);
             if (operationUser == null) return null;
             var operation = _objectSearchContext.Operations.FirstOrDefault(p => p.Id == operationUser.OperationId);
             return operation;
-            
+
         }
 
+        public int GetActiveOperationIdByUserId(int? userId)
+        {
+            var operation = _objectSearchContext.OperationUser
+                .Where(p => p.UserId == userId)
+                .Where(o => o.Operation.IsSuccess == false)
+                .FirstOrDefault();
+            //var operation = _objectSearchContext.Operations.Where(s => s.IsSuccess == false)
+            //    .Include(u => u.OperationUsers)
+            //    .ToList();
+            return operation.OperationId;
+        }
         public void Create(Operation operation)
         {
             if (operation == null)
@@ -133,5 +182,11 @@ namespace DataLayer.Repositories.Operations
         {
             //nothing
         }
+
+        public void AddUsers(IEnumerable<User> users)
+        {
+
+        }
+
     }
 }

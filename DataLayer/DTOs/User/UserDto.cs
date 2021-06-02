@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace DataLayer.Models
 {
-    public class MissionCreateDto
+    public class UserDto
     {
-        [Required]
-        public int UserId { get; set; }
+        public int Id { get; set; }
     }
 }

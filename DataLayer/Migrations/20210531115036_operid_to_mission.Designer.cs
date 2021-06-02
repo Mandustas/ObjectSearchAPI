@@ -4,14 +4,16 @@ using DataLayer.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(ObjectSearchContext))]
-    partial class ObjectSearchContextModelSnapshot : ModelSnapshot
+    [Migration("20210531115036_operid_to_mission")]
+    partial class operid_to_mission
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -636,18 +638,16 @@ namespace DataLayer.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7eb1dc0a-ae65-4709-84db-13937fd7a9e7",
+                            ConcurrencyStamp = "d9530b41-fd3a-477d-91a5-e2c6f57a55df",
                             EmailConfirmed = false,
                             FirstName = "Андрей",
                             IsBusy = false,
                             LockoutEnabled = false,
                             MiddleName = "Алексеевич",
-                            PasswordHash = "40BD001563085FC35165329EA1FF5C5ECBDBBEEF",
                             PhoneNumberConfirmed = false,
                             SecondName = "Подоляко",
-                            SecurityStamp = "e2bd68c4-a1d3-4fb7-8323-5d3f41db10b5",
+                            SecurityStamp = "38032dd6-909e-4d38-a769-c0e7599c0305",
                             TwoFactorEnabled = false,
-                            UserName = "Andrey",
                             UserRoleId = 3,
                             UserStatusId = 3
                         },
@@ -655,18 +655,16 @@ namespace DataLayer.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "84e6106c-14fa-4e74-9541-26fa7732cb70",
+                            ConcurrencyStamp = "d18ec43c-8f71-4220-a259-b27482ed9edb",
                             EmailConfirmed = false,
                             FirstName = "Максим",
                             IsBusy = false,
                             LockoutEnabled = false,
                             MiddleName = "Сергеевич",
-                            PasswordHash = "40BD001563085FC35165329EA1FF5C5ECBDBBEEF",
                             PhoneNumberConfirmed = false,
                             SecondName = "Кириченко",
-                            SecurityStamp = "8a5f0c87-0192-40b0-8421-aa47fb617a72",
+                            SecurityStamp = "d680bc08-9dd6-4d2b-b101-77fefa45201b",
                             TwoFactorEnabled = false,
-                            UserName = "Maxim",
                             UserRoleId = 4,
                             UserStatusId = 3
                         },
@@ -674,18 +672,16 @@ namespace DataLayer.Migrations
                         {
                             Id = 3,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d1112464-de47-4f49-ad07-b9d0e758b0b8",
+                            ConcurrencyStamp = "836be7b0-f122-49a2-86f5-46b212175a23",
                             EmailConfirmed = false,
                             FirstName = "Дмитрий",
                             IsBusy = false,
                             LockoutEnabled = false,
                             MiddleName = "Булатицкий",
-                            PasswordHash = "40BD001563085FC35165329EA1FF5C5ECBDBBEEF",
                             PhoneNumberConfirmed = false,
                             SecondName = "Иванович",
-                            SecurityStamp = "506c4ba2-c604-4b9d-a22d-6810b4bea74b",
+                            SecurityStamp = "9a23c7ab-92c2-4d8d-80cc-262efdd99597",
                             TwoFactorEnabled = false,
-                            UserName = "Lead",
                             UserRoleId = 2,
                             UserStatusId = 3
                         },
@@ -693,16 +689,16 @@ namespace DataLayer.Migrations
                         {
                             Id = 4,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fefb7570-fdd0-4f45-96d8-8592221c18bd",
+                            ConcurrencyStamp = "73102c3f-8f05-4b26-a1f1-e4b5763abc9f",
                             EmailConfirmed = false,
                             FirstName = "Андрей",
                             IsBusy = false,
                             LockoutEnabled = false,
                             MiddleName = "Александрович",
-                            PasswordHash = "40BD001563085FC35165329EA1FF5C5ECBDBBEEF",
+                            PasswordHash = "qwerty123",
                             PhoneNumberConfirmed = false,
                             SecondName = "Селифонтов",
-                            SecurityStamp = "648fa8b6-c705-45c7-a519-f2ef622f0a5e",
+                            SecurityStamp = "eefc4d3b-831d-47bf-b0df-d9169dede22d",
                             TwoFactorEnabled = false,
                             UserName = "Andreog",
                             UserRoleId = 4,

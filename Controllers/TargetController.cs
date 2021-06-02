@@ -6,6 +6,8 @@ using AutoMapper;
 using DataLayer.Models;
 using DataLayer.Repositories.Targets;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using DataLayer.Repositories.Operations;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,8 +16,6 @@ namespace ObjectSearchAPI.Controllers
     [Route("api/target")]
     [ApiController]
     [Authorize(AuthenticationSchemes = "Bearer")]
-
-
     public class TargetController : ControllerBase
     {
         enum TargetStatuses
@@ -23,18 +23,20 @@ namespace ObjectSearchAPI.Controllers
             Finded = 1,
             Attention = 2,
             NotFound = 3
-
         }
 
-        // GET: api/<TargetController>
+        private int UserId => int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
         private readonly ITargetRepository _targetRepository;
+        private readonly IOperationsRepository _operationRepository;
         private readonly IMapper _mapper;
         public TargetController(
             ITargetRepository targetRepository,
+            IOperationsRepository operationRepository,
             IMapper mapper
             )
         {
             _targetRepository = targetRepository;
+            _operationRepository = operationRepository;
             _mapper = mapper;
         }
 
@@ -74,6 +76,7 @@ namespace ObjectSearchAPI.Controllers
             var target = _mapper.Map<Target>(targetCreateDto);
             target.TargetStatusId = (int)TargetStatuses.NotFound;
             target.LostTime = targetCreateDto.LostTime.ToLocalTime();
+            target.OperationId = _operationRepository.GetActiveOperationId(UserId);
             _targetRepository.Create(target);
             _targetRepository.SaveChanges();
 

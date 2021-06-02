@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Identity;
 using DataLayer.Models;
 using DataLayer.Repositories.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using ObjectSearchAPI.Services;
 
 namespace ObjectSearchAPI
 {
@@ -67,6 +68,7 @@ namespace ObjectSearchAPI
             services.AddScoped<IImageRepository, ImageRepository>();
             services.AddScoped<IMissionRepository, MissionRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IClusteringService, ClusteringService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

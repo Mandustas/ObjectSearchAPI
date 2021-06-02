@@ -14,15 +14,19 @@
     <Compile Remove="AuthAPI\**" />
     <Compile Remove="AuthOptions\**" />
     <Compile Remove="DataLayer\**" />
+    <Compile Remove="XUnitObjectSearchAPI\**" />
     <Content Remove="AuthAPI\**" />
     <Content Remove="AuthOptions\**" />
     <Content Remove="DataLayer\**" />
+    <Content Remove="XUnitObjectSearchAPI\**" />
     <EmbeddedResource Remove="AuthAPI\**" />
     <EmbeddedResource Remove="AuthOptions\**" />
     <EmbeddedResource Remove="DataLayer\**" />
+    <EmbeddedResource Remove="XUnitObjectSearchAPI\**" />
     <None Remove="AuthAPI\**" />
     <None Remove="AuthOptions\**" />
     <None Remove="DataLayer\**" />
+    <None Remove="XUnitObjectSearchAPI\**" />
     <Compile Remove="Properties\AssemblyInfo.cs" />
   </ItemGroup>
 

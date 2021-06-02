@@ -21,8 +21,9 @@ namespace DataLayer.Repositories.DetectedObjects
             return _objectSearchContext.SaveChanges() >= 0;
         }
 
-        public IEnumerable<DetectedObject> Get(int? operationId = null)
+        public IEnumerable<DetectedObject> Get(int? operationId = null, int? missionId = null, bool? isDesired = null)
         {
+            
             var detectedObjects = _objectSearchContext.DetectedObjects
                 .Include(i => i.Image)
                 .ToList();
@@ -44,6 +45,27 @@ namespace DataLayer.Repositories.DetectedObjects
             {
                 detectedObjects = detectedObjects.Where(s => s.OperationId == operationId).ToList();
             }
+            if (missionId.HasValue)
+            {
+                detectedObjects = detectedObjects.Where(s => s.MissionId == missionId).ToList();
+            } 
+            if (isDesired.HasValue)
+            {
+                detectedObjects = detectedObjects.Where(s => s.IsDesired == isDesired).ToList();
+            }
+            return detectedObjects;
+        }
+
+        public IEnumerable<DetectedObject> GetVacantObjects(int? operationId = null)
+        {
+
+            var detectedObjects = _objectSearchContext.DetectedObjects
+                .Where(d => d.IsDesired == false)
+                .Where(o => o.OperationId == operationId)
+                .Where(m => m.MissionId == null)
+                .ToList();
+            
+            
             return detectedObjects;
         }
 

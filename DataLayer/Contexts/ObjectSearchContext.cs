@@ -8,7 +8,10 @@ namespace DataLayer.Contexts
 {
     public class ObjectSearchContext : DbContext
     {
-        public ObjectSearchContext(DbContextOptions options) : base(options) { }
+        public ObjectSearchContext(DbContextOptions options) : base(options)
+        {
+            
+        }
         public DbSet<Operation> Operations { get; set; }
         public DbSet<Target> Targets { get; set; }
         public DbSet<User> Users { get; set; }
@@ -23,6 +26,7 @@ namespace DataLayer.Contexts
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<UserStatus> UserStatuses { get; set; }
         public DbSet<OperationUser> OperationUser { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -153,7 +157,7 @@ namespace DataLayer.Contexts
                     .HasOne(pt => pt.Operation)
                     .WithMany(p => p.OperationUsers)
                     .HasForeignKey(pt => pt.OperationId),
-                j => 
+                j =>
                 {
                     j.HasKey(t => new { t.OperationId, t.UserId });
                 });
@@ -165,7 +169,13 @@ namespace DataLayer.Contexts
                         .WithMany(p => p.СontrolledOperations)
                         .HasForeignKey("CoordinatorId");
                 });
-
+            modelBuilder.Entity<Mission>(
+                entity =>
+                {
+                    entity.HasOne(d => d.Operation)
+                        .WithMany(p => p.Missions)
+                        .HasForeignKey("OperationId");
+                });
             modelBuilder.Entity<Cycle>(
                 entity =>
                 {
@@ -215,10 +225,10 @@ namespace DataLayer.Contexts
             modelBuilder.Entity<User>().HasData(
                 new User[]
                 {
-                    new User { Id = 1, FirstName="Андрей", SecondName="Подоляко", MiddleName = "Алексеевич", IsBusy=false , UserRoleId = 3, UserStatusId = 1},
-                    new User { Id = 2, FirstName="Максим", SecondName="Кириченко", MiddleName = "Сергеевич", IsBusy=false , UserRoleId = 4, UserStatusId = 1},
-                    new User { Id = 3, FirstName="Дмитрий", SecondName="Иванович", MiddleName = "Булатицкий", IsBusy=false , UserRoleId = 2, UserStatusId = 1},
-                    new User { Id = 4, FirstName="Андрей", SecondName="Селифонтов",MiddleName = "Александрович", IsBusy=false , UserRoleId = 4, UserStatusId = 1, UserName = "Andreog", PasswordHash="qwerty123"}
+                    new User { Id = 1, FirstName="Андрей", SecondName="Подоляко", MiddleName = "Алексеевич", IsBusy=false , UserRoleId = 3, UserStatusId = 3, UserName = "Andrey", PasswordHash="40BD001563085FC35165329EA1FF5C5ECBDBBEEF"},
+                    new User { Id = 2, FirstName="Максим", SecondName="Кириченко", MiddleName = "Сергеевич", IsBusy=false , UserRoleId = 4, UserStatusId = 3, UserName = "Maxim", PasswordHash="40BD001563085FC35165329EA1FF5C5ECBDBBEEF"},
+                    new User { Id = 3, FirstName="Дмитрий", SecondName="Иванович", MiddleName = "Булатицкий", IsBusy=false , UserRoleId = 2, UserStatusId = 3, UserName = "Lead", PasswordHash="40BD001563085FC35165329EA1FF5C5ECBDBBEEF"},
+                    new User { Id = 4, FirstName="Андрей", SecondName="Селифонтов",MiddleName = "Александрович", IsBusy=false , UserRoleId = 4, UserStatusId = 3, UserName = "Andreog", PasswordHash="40BD001563085FC35165329EA1FF5C5ECBDBBEEF"}
                 });
 
             modelBuilder.Entity<Operation>().HasData(
@@ -232,8 +242,8 @@ namespace DataLayer.Contexts
             modelBuilder.Entity<Mission>().HasData(
                 new Mission[]
                 {
-                    new Mission { Id = 1, UserId = 2},
-                    new Mission { Id = 2, UserId = 4},
+                    new Mission { Id = 1, UserId = 2, OperationId = 1},
+                    new Mission { Id = 2, UserId = 4, OperationId = 1},
                 });
 
             modelBuilder.Entity<Cycle>().HasData(

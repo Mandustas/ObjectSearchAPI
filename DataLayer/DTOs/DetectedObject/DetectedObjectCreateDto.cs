@@ -17,6 +17,5 @@ namespace DataLayer.DTOs.DetectedObjects
         [Required]
         [MaxLength(50)]
         public string Y { get; set; }
-        public int OperationId { get; set; }
     }
 }

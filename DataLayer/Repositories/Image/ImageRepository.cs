@@ -23,16 +23,18 @@ namespace DataLayer.Repositories.Images
 
         public IEnumerable<Cycle> Get(int? OperationId = null)
         {
-            var cycles =  _objectSearchContext.Cycles.Include(u => u.Images).Where(s => s.OperationId == OperationId)
+            var cycles = _objectSearchContext.Cycles.Include(u => u.Images).Where(s => s.OperationId == OperationId)
                 .ToList();
             foreach (var cycle in cycles)
             {
+                cycle.Operation = null;
                 foreach (var image in cycle.Images)
                 {
                     image.Cycle = null;
                     image.DetectedObjects = null;
+
                 }
-                
+
             }
             return cycles;
         }
