@@ -102,10 +102,19 @@ namespace ObjectSearchAPI.Controllers
         [Route("clustering")]
         public ActionResult Clusters(IEnumerable<UserDto> userDtos)
         {
+            if (userDtos.Count() < 1)
+            {
+                return Ok();
+            }
             int operationId = _operationRepository.GetActiveOperationId(UserId);
             int num_clasters = userDtos.ToList().Count();
             var users = new List<User> { };
             var objs = _detectedObjectRepository.GetVacantObjects(operationId);
+            if (userDtos.Count() == 0 || objs.Count() == 0 || objs.Count() < userDtos.Count())
+            {
+                return Ok();
+            }
+
 
             float[] scores = new float[3];
             List<PointF>[] CentroidsList = new List<PointF>[3];
@@ -136,8 +145,8 @@ namespace ObjectSearchAPI.Controllers
                     distances[i, j] = _clusteringService.Distance2(
                         new PointF
                         {
-                            X = float.Parse((user.UserPositions.LastOrDefault(u => u.UserId == user.Id).X).Replace('.', ',')),
-                            Y = float.Parse((user.UserPositions.LastOrDefault(u => u.UserId == user.Id).Y).Replace('.', ','))
+                            X = float.Parse(user.UserPositions.LastOrDefault(u => u.UserId == user.Id).X.Replace('.', ',')),
+                            Y = float.Parse(user.UserPositions.LastOrDefault(u => u.UserId == user.Id).Y.Replace('.', ','))
                         },
                         new PointF
                         {
@@ -176,6 +185,25 @@ namespace ObjectSearchAPI.Controllers
                 }
                 i++;
             }
+
+
+            //#region DEBUG  
+            //DEBUG: добавляет обьекты соответствующие центроидам кластеров
+            //foreach (var centroid in CentroidsList[indexOfMinScore])
+            //{
+            //    _detectedObjectRepository.Create(new DetectedObject
+            //    {
+            //        Description = "centroid",
+            //        Title = "Centroid",
+            //        X = centroid.X.ToString().Replace(',', '.'),
+            //        Y = centroid.Y.ToString().Replace(',', '.'),
+            //        OperationId = operationId,
+            //        IsDesired = false
+            //    });
+            //}
+            //#endregion
+
+
 
             foreach (var user in bestDistancesSort)
             {

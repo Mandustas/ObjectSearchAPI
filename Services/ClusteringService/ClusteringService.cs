@@ -12,6 +12,12 @@ namespace ObjectSearchAPI.Services
     {
         public IEnumerable<ClusterPoint> GetClusters(int num_clusters, IEnumerable<DetectedObject> detectedObjects, out float score, out List<PointF> Centroids)
         {
+            if (num_clusters == 0 || detectedObjects.Count() == 0 || detectedObjects == null)
+            {
+                score = 0;
+                Centroids = null;
+                return null;
+            }
             var Points = new List<ClusterPoint>();
             Centroids = new List<PointF>();
 
@@ -73,7 +79,7 @@ namespace ObjectSearchAPI.Services
                 // See if the centroids have moved.
                 for (int i = 0; i < num_clusters; i++)
                 {
-                    const float min_change = 0.05f;
+                    const float min_change = 0.01f;
                     if ((Math.Abs(Centroids[i].X - new_centroids[i].X) > min_change) ||
                         (Math.Abs(Centroids[i].Y - new_centroids[i].Y) > min_change))
                     {

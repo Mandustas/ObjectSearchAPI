@@ -51,8 +51,9 @@ namespace ObjectSearchAPI.Controllers
         [HttpPost]
         public ActionResult<IEnumerable<DetectedObjectWithImagesCreateDto>> CreateImagesAndObjects(IEnumerable<DetectedObjectWithImagesCreateDto> detectedObjectCreateDtos)
         {
-            int OperationId = _operationRepository.GetActiveOperationIdByUserId(UserId);
+            int OperationId = _operationRepository.GetActiveOperationId(UserId);
             List<DetectedObject> detectedObjects = new List<DetectedObject>();
+
             Cycle cycle = new Cycle
             {
                 Title = "Облет",
@@ -64,14 +65,10 @@ namespace ObjectSearchAPI.Controllers
 
             foreach (var obj in detectedObjectCreateDtos.ToList())
             {
-
-                //detectedObjects.Add(
-
-                //);
                 _detectedObjectRepository.Create(new DetectedObject
                 {
-                    Description = "",
-                    Title = "",
+                    Description = obj.TypeId == 0 ? "Человек" : "Автомобиль",
+                    Title = "Найденный объект",
                     X = obj.X,
                     Y = obj.Y,
                     IsDesired = false,
@@ -97,7 +94,7 @@ namespace ObjectSearchAPI.Controllers
                 });
             }
             _detectedObjectRepository.SaveChanges();
-            return null;
+            return Ok();
         }
     }
 }

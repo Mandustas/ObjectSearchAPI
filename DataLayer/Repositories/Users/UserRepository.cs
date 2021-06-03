@@ -53,16 +53,18 @@ namespace DataLayer.Repositories.Users
         {
             var user = _objectSearchContext.Users
                 .Include(p => p.UserPositions)
-                .FirstOrDefault(p => p.Id == id);
+                .FirstOrDefault(q => q.Id == id);
 
             if (user != null)
             {
-                foreach (var position in user.UserPositions)
-                {
-                    position.User = null;
-                }
+                //foreach (var position in user.UserPositions)
+                //{
+                //    position.User = null;
+                //}
+                return user;
             }
-            return user;
+            return null;
+
         }
         public IEnumerable<UserRole> GetRoles()
         {
