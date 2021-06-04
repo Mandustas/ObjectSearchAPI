@@ -17,6 +17,7 @@ using DataLayer.Models;
 using DataLayer.Repositories.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using ObjectSearchAPI.Services;
+using ObjectSearchAPI.Hubs;
 
 namespace ObjectSearchAPI
 {
@@ -55,6 +56,7 @@ namespace ObjectSearchAPI
             services.AddDbContext<ObjectSearchContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("Default")));
             services.AddIdentity<User, IdentityRole>().
                 AddEntityFrameworkStores<ObjectSearchContext>();
+            services.AddSignalR();
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen(c =>
@@ -69,6 +71,7 @@ namespace ObjectSearchAPI
             services.AddScoped<IMissionRepository, MissionRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IClusteringService, ClusteringService>();
+            services.AddScoped<INotificationService, NotificationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -99,6 +102,7 @@ namespace ObjectSearchAPI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<NotificationHub>("api/notification");
             });
         }
     }

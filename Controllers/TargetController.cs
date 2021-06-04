@@ -8,6 +8,8 @@ using DataLayer.Repositories.Targets;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using DataLayer.Repositories.Operations;
+using ObjectSearchAPI.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -28,15 +30,18 @@ namespace ObjectSearchAPI.Controllers
         private int UserId => int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
         private readonly ITargetRepository _targetRepository;
         private readonly IOperationsRepository _operationRepository;
+        private readonly IHubContext<NotificationHub> _notificationHub;
         private readonly IMapper _mapper;
         public TargetController(
             ITargetRepository targetRepository,
             IOperationsRepository operationRepository,
+            IHubContext<NotificationHub> notificationHub,
             IMapper mapper
             )
         {
             _targetRepository = targetRepository;
             _operationRepository = operationRepository;
+            _notificationHub = notificationHub;
             _mapper = mapper;
         }
 
@@ -80,6 +85,8 @@ namespace ObjectSearchAPI.Controllers
             _targetRepository.Create(target);
             _targetRepository.SaveChanges();
 
+            _notificationHub.Clients.All.SendAsync("SendMessage", "TargerCreated");
+
             var targetReadDto = _mapper.Map<Target>(target);
 
 
@@ -100,6 +107,9 @@ namespace ObjectSearchAPI.Controllers
             _mapper.Map(targetUpdateDto, target);
             _targetRepository.Update(target); //Best practice
             _targetRepository.SaveChanges();
+
+            _notificationHub.Clients.All.SendAsync("SendMessage", "TargetUpdated");
+
             return NoContent();
         }
 
@@ -115,6 +125,9 @@ namespace ObjectSearchAPI.Controllers
 
             _targetRepository.Delete(target);
             _targetRepository.SaveChanges();
+
+            _notificationHub.Clients.All.SendAsync("SendMessage", "TargetDeleted");
+
             return NoContent();
         }
     }
