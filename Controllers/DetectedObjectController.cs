@@ -161,17 +161,49 @@ namespace ObjectSearchAPI.Controllers
 
             Dictionary<int, (int, double)> bestDistances = new Dictionary<int, (int, double)>();
 
+            //i = 0;
+            //foreach (var user in userDtos)
+            //{
+            //    double[] arr = new double[num_clasters];
+            //    for (j = 0; j < num_clasters; j++)
+            //    {
+            //        arr[j] = distances[i, j];
+            //    }
+
+            //    bestDistances.Add(i++, (user.Id, arr.Min())); //0 - 1 кластер, 1 - 2 кластер ...
+            //}
             i = 0;
-            foreach (var user in userDtos)
+            List<UserDto> usersCopy = userDtos.ToList();
+            for (i = 0; i < num_clasters; i++)
             {
-                double[] arr = new double[num_clasters];
-                for (j = 0; j < num_clasters; j++)
+                j = 0;
+                Dictionary<int, double> arr = new Dictionary<int, double>();
+                foreach (var user in usersCopy.ToList())
                 {
-                    arr[j] = distances[i, j];
+
+                    arr.Add(user.Id, distances[i, j]);
+                    j++;
+                }
+                var bestKeys = bestDistances.Keys.ToList();
+                if (bestKeys.Count != 0)
+                {
+                    foreach (var item in bestKeys)
+                    {
+                        arr.Remove(item);
+                    }
                 }
 
-                bestDistances.Add(i++, (user.Id, arr.Min())); //0 - 1 кластер, 1 - 2 кластер ...
+
+                var minUser = arr.Aggregate((l, r) => l.Value < r.Value ? l : r).Key;
+
+                var minDist = arr.Values.Min();
+
+                bestDistances.Add(i, (minUser, minDist)); //0 - 1 кластер, 1 - 2 кластер ...
             }
+
+
+
+            //var bestDistancesSort = bestDistances;
             var bestDistancesSort = bestDistances.OrderBy(r => r.Value.Item2);
 
             List<DetectedObject>[] detectedObjects = new List<DetectedObject>[num_clasters];
@@ -188,18 +220,20 @@ namespace ObjectSearchAPI.Controllers
 
 
             //#region DEBUG  
-            //DEBUG: добавляет обьекты соответствующие центроидам кластеров
+            ////DEBUG: добавляет обьекты соответствующие центроидам кластеров
+            //i = 0;
             //foreach (var centroid in CentroidsList[indexOfMinScore])
             //{
             //    _detectedObjectRepository.Create(new DetectedObject
             //    {
-            //        Description = "centroid",
+            //        Description = "centroid_" + i,
             //        Title = "Centroid",
             //        X = centroid.X.ToString().Replace(',', '.'),
             //        Y = centroid.Y.ToString().Replace(',', '.'),
             //        OperationId = operationId,
             //        IsDesired = false
             //    });
+            //    i++;
             //}
             //#endregion
 

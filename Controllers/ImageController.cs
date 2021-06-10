@@ -52,7 +52,7 @@ namespace ObjectSearchAPI.Controllers
         public ActionResult<IEnumerable<DetectedObjectWithImagesCreateDto>> CreateImagesAndObjects(IEnumerable<DetectedObjectWithImagesCreateDto> detectedObjectCreateDtos)
         {
             int OperationId = _operationRepository.GetActiveOperationId(UserId);
-            List<DetectedObject> detectedObjects = new List<DetectedObject>();
+
 
             Cycle cycle = new Cycle
             {
@@ -63,35 +63,67 @@ namespace ObjectSearchAPI.Controllers
                 OperationId = OperationId, //TODO: Заменить Id операции
             };
 
-            foreach (var obj in detectedObjectCreateDtos.ToList())
+            foreach (var img in detectedObjectCreateDtos.ToList())
             {
-                _detectedObjectRepository.Create(new DetectedObject
+                List<DetectedObject> detectedObjects = new List<DetectedObject>();
+                foreach (var obj in img.DetectedObjects)
                 {
-                    Description = obj.TypeId == 0 ? "Человек" : "Автомобиль",
-                    Title = "Найденный объект",
-                    X = obj.X,
-                    Y = obj.Y,
-                    IsDesired = false,
-                    OperationId = OperationId,
-
-                    Image = new Image
+                    detectedObjects.Add(new DetectedObject
                     {
-                        Path = obj.Image.Path,
-                        Cycle = cycle,
-                        QtyFindObject = 1,
-                        QtyVerifiedObject = 1,
-                        TimeCreate = DateTime.Now
-
-                    },
-                    ImageMarkedUp = new Image
-                    {
-                        Path = obj.ImageMarkedUp.Path,
-                        Cycle = cycle,
-                        QtyFindObject = 1,
-                        QtyVerifiedObject = 1,
-                        TimeCreate = DateTime.Now
-                    },
+                        Description = obj.TypeId == 0 ? "Человек" : "Автомобиль",
+                        Title = "Найденный объект",
+                        X = obj.X,
+                        Y = obj.Y,
+                        IsDesired = false,
+                        OperationId = OperationId,
+                    });
+                }
+                _imageRepository.Create(new Image
+                {
+                    Path = img.Image.Path,
+                    Cycle = cycle,
+                    QtyFindObject = 1,
+                    QtyVerifiedObject = 1,
+                    TimeCreate = DateTime.Now,
+                    DetectedObjects = detectedObjects
                 });
+                _imageRepository.Create(new Image
+                {
+                    Path = img.ImageMarkedUp.Path,
+                    Cycle = cycle,
+                    QtyFindObject = 1,
+                    QtyVerifiedObject = 1,
+                    TimeCreate = DateTime.Now,
+                    DetectedObjectsMarkUp = detectedObjects
+                });
+
+                //_detectedObjectRepository.Create(new DetectedObject
+                //{
+                //    Description = obj.TypeId == 0 ? "Человек" : "Автомобиль",
+                //    Title = "Найденный объект",
+                //    X = obj.X,
+                //    Y = obj.Y,
+                //    IsDesired = false,
+                //    OperationId = OperationId,
+
+                //    Image = new Image
+                //    {
+                //        Path = obj.Image.Path,
+                //        Cycle = cycle,
+                //        QtyFindObject = 1,
+                //        QtyVerifiedObject = 1,
+                //        TimeCreate = DateTime.Now
+
+                //    },
+                //    ImageMarkedUp = new Image
+                //    {
+                //        Path = obj.ImageMarkedUp.Path,
+                //        Cycle = cycle,
+                //        QtyFindObject = 1,
+                //        QtyVerifiedObject = 1,
+                //        TimeCreate = DateTime.Now
+                //    },
+                //});
             }
             _detectedObjectRepository.SaveChanges();
             return Ok();

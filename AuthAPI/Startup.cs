@@ -30,16 +30,7 @@ namespace AuthAPI
             var authOptionsConfiguration = _configuration.GetSection("Auth");
             services.Configure<AuthOptions.AuthOptions>(authOptionsConfiguration);
 
-            services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(
-                    builder =>
-                    {
-                        builder.AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader();
-                    });
-            });
+            services.AddCors();
             services.AddScoped<IUserRepository, UserRepository>();
 
         }
@@ -47,6 +38,13 @@ namespace AuthAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(builder => builder
+                            .WithOrigins("http://waiting-lock.surge.sh/")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .SetIsOriginAllowed((host) => true)
+                            .AllowCredentials()
+                        );
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
