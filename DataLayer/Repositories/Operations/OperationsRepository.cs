@@ -24,7 +24,7 @@ namespace DataLayer.Repositories.Operations
         public IEnumerable<Operation> Get(bool? isSuccess = null, int? coordinatorId = null)
         {
             var operations = _objectSearchContext.Operations
-                
+
                 .Include(u => u.Users)
                     .ThenInclude(m => m.Missions)
                         .ThenInclude(o => o.DetectedObjects)
@@ -102,13 +102,25 @@ namespace DataLayer.Repositories.Operations
             return null;
         }
 
-        public Operation GetByUserId(int? userId=null)
+        public Operation GetByUserId(int? userId = null)
         {
             var operationUser = _objectSearchContext.OperationUser.FirstOrDefault(p => p.UserId == userId);
             if (operationUser == null) return null;
             var operation = _objectSearchContext.Operations.FirstOrDefault(p => p.Id == operationUser.OperationId);
             return operation;
-            
+
+        }
+        public void EnterToOperationUser(OperationUser operationUser)
+        {
+            var opUser = _objectSearchContext.OperationUser.FirstOrDefault(p => p.UserId == operationUser.UserId);
+            if (opUser != null) _objectSearchContext.Remove(opUser);
+            _objectSearchContext.OperationUser.Add(operationUser);
+        }
+
+        public void DeleteOperationUser(OperationUser operationUser)
+        {
+            var opUser = _objectSearchContext.OperationUser.FirstOrDefault(p => p.UserId == operationUser.UserId);
+            _objectSearchContext.Remove(opUser);
         }
 
         public void Create(Operation operation)

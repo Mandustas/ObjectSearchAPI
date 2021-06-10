@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -18,6 +19,7 @@ namespace ObjectSearchAPI.Controllers
 
     public class MissionController : ControllerBase
     {
+        private int UserId => int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
         private readonly IMissionRepository _missionRepository;
         private readonly IMapper _mapper;
         public MissionController(
@@ -44,6 +46,26 @@ namespace ObjectSearchAPI.Controllers
             if (mission != null)
             {
                 return Ok(mission);
+            }
+
+            return NotFound();
+        }
+
+        [HttpGet("user", Name = "GetMissionByUserId")]
+        public ActionResult<DetectedObject> GetMissionByUserId()
+        {
+            var missions = _missionRepository.GetByUserId(UserId);
+            if (missions != null)
+            {
+                foreach(var mission in missions)
+                {
+                    mission.User = null;
+                    foreach(var dObject in mission.DetectedObjects)
+                    {
+                        dObject.Mission = null;
+                    }
+                }
+                return Ok(missions);
             }
 
             return NotFound();

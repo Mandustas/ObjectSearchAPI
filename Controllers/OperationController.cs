@@ -8,6 +8,7 @@ using DataLayer.DTOs.Operation;
 using DataLayer.Models;
 using DataLayer.Repositories.Operations;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,6 +19,7 @@ namespace ObjectSearchAPI.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class OperationController : ControllerBase
     {
+        private int UserId => int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
         private readonly IOperationsRepository _operationsRepository;
         private readonly IMapper _mapper;
         public OperationController(
@@ -45,7 +47,6 @@ namespace ObjectSearchAPI.Controllers
             {
                 return Ok(operation);
             }
-
             return NotFound();
         }
 
@@ -62,9 +63,9 @@ namespace ObjectSearchAPI.Controllers
         }
 
         [HttpGet("activeUser", Name = "GetActiveOperationUser")]
-        public ActionResult<OperationDTO> GetActiveOperationUser(int? userId)
+        public ActionResult<OperationDTO> GetActiveOperationUser()
         {
-            var operation = _operationsRepository.GetByUserId(userId);
+            var operation = _operationsRepository.GetByUserId(UserId);
             if (operation != null)
             {
                 OperationDTO opDto = new OperationDTO(operation);
@@ -74,7 +75,25 @@ namespace ObjectSearchAPI.Controllers
             return NotFound();
         }
 
+        [HttpPost("enterOperation", Name = "EnterToOperaton")]
+        public ActionResult EnterToOperation(int idOperation)
+        {
+            OperationUser operationUser = new OperationUser();
+            operationUser.UserId = UserId; operationUser.OperationId = idOperation;
+            _operationsRepository.EnterToOperationUser(operationUser);
+            _operationsRepository.SaveChanges();
+            return Ok();
+        }
 
+        [HttpDelete("deleteOperation", Name = "DeleteOperationUser")]
+        public ActionResult DeleteOperationUser(int idOperation)
+        {
+            OperationUser operationUser = new OperationUser();
+            operationUser.UserId = UserId; operationUser.OperationId = idOperation;
+            _operationsRepository.DeleteOperationUser(operationUser);
+            _operationsRepository.SaveChanges();
+            return Ok();
+        }
 
         [Authorize(Roles = "Координатор ПСР")]
 

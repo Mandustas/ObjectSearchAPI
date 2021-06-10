@@ -37,6 +37,18 @@ namespace DataLayer.Repositories.Missions
             return missions;
         }
 
+        public IEnumerable<Mission> GetByUserId(int Userid)
+        {
+            var operation = _objectSearchContext.OperationUser.FirstOrDefault(u => u.UserId == Userid);
+            if (operation == null) return null;
+            var missions = _objectSearchContext.Missions
+                .Where(p => p.UserId == Userid)
+                .Where(m => m.DetectedObjects.Any(op => op.OperationId == operation.OperationId))
+                .Include(u => u.DetectedObjects)
+                .ToList();
+            return missions;
+        }
+
         public Mission GetById(int id)
         {
             var missions = _objectSearchContext.Missions

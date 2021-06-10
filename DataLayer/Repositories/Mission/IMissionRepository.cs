@@ -9,6 +9,7 @@ namespace DataLayer.Repositories.Missions
     {
         bool SaveChanges();
         IEnumerable<Mission> Get();
+        IEnumerable<Mission> GetByUserId(int id);
         Mission GetById(int id);
         void Create(Mission mission);
         void Delete(Mission mission);

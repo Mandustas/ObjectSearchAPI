@@ -6,6 +6,7 @@ using AutoMapper;
 using DataLayer.Models;
 using DataLayer.Repositories.Targets;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,8 +15,6 @@ namespace ObjectSearchAPI.Controllers
     [Route("api/target")]
     [ApiController]
     [Authorize(AuthenticationSchemes = "Bearer")]
-
-
     public class TargetController : ControllerBase
     {
         enum TargetStatuses
@@ -27,6 +26,7 @@ namespace ObjectSearchAPI.Controllers
         }
 
         // GET: api/<TargetController>
+        private int UserId => int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
         private readonly ITargetRepository _targetRepository;
         private readonly IMapper _mapper;
         public TargetController(
@@ -45,10 +45,10 @@ namespace ObjectSearchAPI.Controllers
             return Ok(targets);
         }
 
-        [HttpGet("User/{iduser}", Name = "GetForUser")]
-        public ActionResult<IEnumerable<Target>> GetForUser(int iduser)
+        [HttpGet("User", Name = "GetForUser")]
+        public ActionResult<IEnumerable<Target>> GetForUser()
         {
-            var targets = _targetRepository.GetByUserId(iduser);
+            var targets = _targetRepository.GetByUserId(UserId);
             if (targets != null)
                 return Ok(targets);
             else
@@ -84,7 +84,7 @@ namespace ObjectSearchAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Координатор ПСР")]
+        //[Authorize(Roles = "Координатор ПСР")]
 
         public ActionResult<Target> UpdateTarget(int id, TargetUpdateDto targetUpdateDto)
         {

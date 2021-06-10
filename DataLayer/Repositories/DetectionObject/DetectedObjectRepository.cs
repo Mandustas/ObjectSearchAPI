@@ -70,11 +70,17 @@ namespace DataLayer.Repositories.DetectedObjects
             {
                 obj.Mission.DetectedObjects = null;
             }
-            if (detectedObject != null)
-            {
-                return detectedObject;
-            }
-            return null;
+            return detectedObject;
+
+        }
+
+        public IEnumerable<DetectedObject> GetByMissionId(int id)
+        {
+            var detectedObject = _objectSearchContext.DetectedObjects
+                .Where(d => d.MissionId == id)
+                .ToList();
+            return detectedObject;
+         
         }
 
         public void Create(DetectedObject detectedObject)

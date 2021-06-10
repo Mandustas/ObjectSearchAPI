@@ -11,6 +11,8 @@ namespace DataLayer.Repositories.Operations
         IEnumerable<Operation> Get(bool? isSuccess = null, int? coordinatorId = null);
         Operation GetById(int id);
         Operation GetByUserId(int? userId);
+        void EnterToOperationUser(OperationUser operationUser);
+        void DeleteOperationUser(OperationUser operationUser);
         void Create(Operation operation);
         void Delete(Operation operation);
         void Update(Operation operation);

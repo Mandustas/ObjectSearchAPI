@@ -44,7 +44,10 @@ namespace DataLayer.Repositories.Users
             var user = _objectSearchContext.Users
                 .Include(r => r.UserRole)
                 .FirstOrDefault(p => p.UserName == userName && p.PasswordHash == password);
-            user.UserRole.Users = null;
+            if (user != null)
+            {
+                user.UserRole.Users = null;
+            }
             return user;
         }
 

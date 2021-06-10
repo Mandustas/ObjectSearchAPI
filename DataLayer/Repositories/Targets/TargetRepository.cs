@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using DataLayer.Contexts;
 using DataLayer.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.Repositories.Targets
 {
@@ -29,7 +30,17 @@ namespace DataLayer.Repositories.Targets
         {
             var operationUser = _objectSearchContext.OperationUser.FirstOrDefault(p => p.UserId == id);
             if (operationUser == null) return null;
-            return _objectSearchContext.Targets.Where(p => p.OperationId == operationUser.OperationId).ToList();
+            var result =  _objectSearchContext.Targets
+                .Include(status => status.TargetStatus)
+                .Include(type => type.TargetType)
+                .Where(p => p.OperationId == operationUser.OperationId)
+                .ToList();
+            foreach(var item in result)
+            {
+                item.TargetStatus.Targets = null;
+                item.TargetType.Targets = null;
+            }
+            return result;
         }
 
         public Target GetById(int id)

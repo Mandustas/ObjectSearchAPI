@@ -10,6 +10,7 @@ namespace DataLayer.Repositories.DetectedObjects
         bool SaveChanges();
         IEnumerable<DetectedObject> Get(int? operationId = null);
         IEnumerable<DetectedObject> GetByUserId(int id);
+        IEnumerable<DetectedObject> GetByMissionId(int id);
         DetectedObject GetById(int id);
         void Create(DetectedObject detectedObject);
         void Delete(DetectedObject detectedObject);

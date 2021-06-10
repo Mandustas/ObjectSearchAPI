@@ -51,6 +51,17 @@ namespace ObjectSearchAPI.Controllers
             return NotFound();
         }
 
+        [HttpGet("mission", Name = "GetDetectedObjectByMissionId")]
+        public ActionResult<DetectedObject> GetDetectedObjectByMissionId(int id)
+        {
+            var detectedObject = _detectedObjectRepository.GetByMissionId(id);
+            if (detectedObject != null)
+            {
+                return Ok(detectedObject);
+            }
+            return NotFound();
+        }
+
         [HttpGet("user", Name = "GetDetectedObjectByUserId")]
         public ActionResult<IEnumerable<DetectedObject>> GetDetectedObjectByUserId(int id)
         {
