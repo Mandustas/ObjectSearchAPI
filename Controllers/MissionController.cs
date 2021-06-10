@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DataLayer.Models;
 using DataLayer.Repositories.Missions;
+using DataLayer.Repositories.Operations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,13 +22,16 @@ namespace ObjectSearchAPI.Controllers
     {
         private int UserId => int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
         private readonly IMissionRepository _missionRepository;
+        private readonly IOperationsRepository _operationRepository;
         private readonly IMapper _mapper;
         public MissionController(
             IMissionRepository missionRepository,
+            IOperationsRepository operationRepository,
             IMapper mapper
             )
         {
             _missionRepository = missionRepository;
+            _operationRepository = operationRepository;
             _mapper = mapper;
         }
 
@@ -35,7 +39,6 @@ namespace ObjectSearchAPI.Controllers
         public ActionResult<Mission> GetMissions()
         {
             var missions = _missionRepository.Get().ToList();
-
             return Ok(missions);
         }
 
@@ -76,6 +79,7 @@ namespace ObjectSearchAPI.Controllers
         public ActionResult<MissionCreateDto> CreateMission(MissionCreateDto missionCreateDto)
         {
             var mission = _mapper.Map<Mission>(missionCreateDto);
+            mission.OperationId = _operationRepository.GetActiveOperationId(UserId);
             _missionRepository.Create(mission);
             _missionRepository.SaveChanges();
             var missionReadDto = _mapper.Map<Mission>(mission);

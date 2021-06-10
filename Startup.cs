@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Identity;
 using DataLayer.Models;
 using DataLayer.Repositories.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using ObjectSearchAPI.Services;
+using ObjectSearchAPI.Hubs;
 
 namespace ObjectSearchAPI
 {
@@ -54,6 +56,7 @@ namespace ObjectSearchAPI
             services.AddDbContext<ObjectSearchContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("Default")));
             services.AddIdentity<User, IdentityRole>().
                 AddEntityFrameworkStores<ObjectSearchContext>();
+            services.AddSignalR();
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen(c =>
@@ -67,12 +70,15 @@ namespace ObjectSearchAPI
             services.AddScoped<IImageRepository, ImageRepository>();
             services.AddScoped<IMissionRepository, MissionRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IClusteringService, ClusteringService>();
+            services.AddScoped<INotificationService, NotificationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseCors(builder => builder
+                            .WithOrigins("http://waiting-lock.surge.sh/")
                             .AllowAnyHeader()
                             .AllowAnyMethod()
                             .SetIsOriginAllowed((host) => true)
@@ -86,7 +92,7 @@ namespace ObjectSearchAPI
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ObjectSearchAPI v1"));
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
@@ -97,6 +103,7 @@ namespace ObjectSearchAPI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<NotificationHub>("api/notification");
             });
         }
     }

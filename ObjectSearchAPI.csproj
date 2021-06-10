@@ -7,6 +7,7 @@
     <GenerateAssemblyProductAttribute> false </GenerateAssemblyProductAttribute>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <UserSecretsId>f2de344c-07ae-4e32-b479-486c5747e5f8</UserSecretsId>
     
   </PropertyGroup>
 
@@ -14,15 +15,19 @@
     <Compile Remove="AuthAPI\**" />
     <Compile Remove="AuthOptions\**" />
     <Compile Remove="DataLayer\**" />
+    <Compile Remove="XUnitObjectSearchAPI\**" />
     <Content Remove="AuthAPI\**" />
     <Content Remove="AuthOptions\**" />
     <Content Remove="DataLayer\**" />
+    <Content Remove="XUnitObjectSearchAPI\**" />
     <EmbeddedResource Remove="AuthAPI\**" />
     <EmbeddedResource Remove="AuthOptions\**" />
     <EmbeddedResource Remove="DataLayer\**" />
+    <EmbeddedResource Remove="XUnitObjectSearchAPI\**" />
     <None Remove="AuthAPI\**" />
     <None Remove="AuthOptions\**" />
     <None Remove="DataLayer\**" />
+    <None Remove="XUnitObjectSearchAPI\**" />
     <Compile Remove="Properties\AssemblyInfo.cs" />
   </ItemGroup>
 
@@ -32,6 +37,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.1" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

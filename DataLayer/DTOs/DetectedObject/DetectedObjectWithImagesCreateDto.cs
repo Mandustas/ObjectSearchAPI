@@ -8,14 +8,8 @@ namespace DataLayer.DTOs.DetectedObjects
 {
     public class DetectedObjectWithImagesCreateDto
     {
-        [Required]
-        [MaxLength(50)]
-        public string X { get; set; }
-        [Required]
-        [MaxLength(50)]
-        public string Y { get; set; }
-        public int TypeId { get; set; }
         public ImageObjectCreateDto Image { get; set; } = null!;
         public ImageObjectCreateDto ImageMarkedUp { get; set; } = null!;
+        public IEnumerable<DetectedObjectLightCreateDto> DetectedObjects { get; set; }
     }
 }

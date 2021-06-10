@@ -8,7 +8,10 @@ namespace DataLayer.Contexts
 {
     public class ObjectSearchContext : DbContext
     {
-        public ObjectSearchContext(DbContextOptions options) : base(options) { }
+        public ObjectSearchContext(DbContextOptions options) : base(options)
+        {
+            
+        }
         public DbSet<Operation> Operations { get; set; }
         public DbSet<Target> Targets { get; set; }
         public DbSet<User> Users { get; set; }
@@ -23,6 +26,7 @@ namespace DataLayer.Contexts
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<UserStatus> UserStatuses { get; set; }
         public DbSet<OperationUser> OperationUser { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -153,7 +157,7 @@ namespace DataLayer.Contexts
                     .HasOne(pt => pt.Operation)
                     .WithMany(p => p.OperationUsers)
                     .HasForeignKey(pt => pt.OperationId),
-                j => 
+                j =>
                 {
                     j.HasKey(t => new { t.OperationId, t.UserId });
                 });
@@ -165,7 +169,13 @@ namespace DataLayer.Contexts
                         .WithMany(p => p.СontrolledOperations)
                         .HasForeignKey("CoordinatorId");
                 });
-
+            modelBuilder.Entity<Mission>(
+                entity =>
+                {
+                    entity.HasOne(d => d.Operation)
+                        .WithMany(p => p.Missions)
+                        .HasForeignKey("OperationId");
+                });
             modelBuilder.Entity<Cycle>(
                 entity =>
                 {
@@ -185,12 +195,12 @@ namespace DataLayer.Contexts
             modelBuilder.Entity<Target>().HasData(
                 new Target[]
                 {
-                    new Target { Id = 1, Title = "Кот", Description = "Рыжий и пушистый", LostTime = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473),OperationId=1,TargetStatusId=2,TargetTypeId=1},
-                    new Target { Id = 2, Title = "Червь", Description = "Ленточный или кольчатый", LostTime = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473) , OperationId=2,TargetStatusId=3,TargetTypeId=1},
-                    new Target { Id = 3, Title = "Бытие", Description = "Фундаментальная категория философского дискурса, которая фиксирует основу существования", LostTime = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473) , OperationId=3,TargetStatusId=3,TargetTypeId=1},
-                    new Target { Id = 4, Title = "Материя", Description = "Объективная реальность, существующая вне и независимо от человеческого сознания", LostTime = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473)  , OperationId=3,TargetStatusId=3,TargetTypeId=1},
-                    new Target { Id = 5, Title = "Сознание", Description = "Состояние психической жизни организма, выражающееся в субъективном переживании событий внешнего мира и тела организма", LostTime = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473)  , OperationId=3,TargetStatusId=3,TargetTypeId=1},
-                    new Target { Id = 6, Title = "Хлеб", Description = "Мягкий и свежий", LostTime = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473),OperationId=1,TargetStatusId=3,TargetTypeId=1},
+                    new Target { Id = 1, Title = "Мужчина 40 лет", Description = "Особые приметы: черная куртка и белые штаны", LostTime = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473),OperationId=1,TargetStatusId=2,TargetTypeId=1},
+                    new Target { Id = 2, Title = "Женщина 28 лет", Description = "Особые приметы: высокий рост и корзина для грибов", LostTime = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473) , OperationId=2,TargetStatusId=3,TargetTypeId=1},
+                    new Target { Id = 3, Title = "Автомобиль Renaut", Description = "Цвет красный, внедорожник", LostTime = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473) , OperationId=3,TargetStatusId=3,TargetTypeId=1},
+                    new Target { Id = 4, Title = "Автомобиль Lada", Description = "Цвет красный, внедорожник", LostTime = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473)  , OperationId=3,TargetStatusId=3,TargetTypeId=1},
+                    new Target { Id = 5, Title = "Автомобиль Ford", Description = "Цвет красный, внедорожник", LostTime = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473)  , OperationId=3,TargetStatusId=3,TargetTypeId=1},
+                    new Target { Id = 6, Title = "Автомобиль Lada", Description = "Цвет черный, седан", LostTime = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473),OperationId=1,TargetStatusId=3,TargetTypeId=1},
 
 
                 });
@@ -207,33 +217,33 @@ namespace DataLayer.Contexts
                 new UserStatus[]
                 {
                     new UserStatus { Id = 1, Title = "Кандидат в участники" },
-                    new UserStatus { Id = 2, Title = "Доброволец" }, // TODO: изменить статусы
-                    new UserStatus { Id = 3, Title = "Сотрудник" } // TODO: изменить статусы
+                    new UserStatus { Id = 2, Title = "Доброволец" }, // 
+                    new UserStatus { Id = 3, Title = "Сотрудник" } // 
                 });
 
 
             modelBuilder.Entity<User>().HasData(
                 new User[]
                 {
-                    new User { Id = 1, FirstName="Андрей", SecondName="Подоляко", MiddleName = "Алексеевич", IsBusy=false , UserRoleId = 3, UserStatusId = 1},
-                    new User { Id = 2, FirstName="Максим", SecondName="Кириченко", MiddleName = "Сергеевич", IsBusy=false , UserRoleId = 4, UserStatusId = 1},
-                    new User { Id = 3, FirstName="Дмитрий", SecondName="Иванович", MiddleName = "Булатицкий", IsBusy=false , UserRoleId = 2, UserStatusId = 1},
-                    new User { Id = 4, FirstName="Андрей", SecondName="Селифонтов",MiddleName = "Александрович", IsBusy=false , UserRoleId = 4, UserStatusId = 1, UserName = "Andreog", PasswordHash="qwerty123"}
+                    new User { Id = 1, FirstName="Андрей", SecondName="Подоляко", MiddleName = "Алексеевич", IsBusy=false , UserRoleId = 3, UserStatusId = 3, UserName = "Andrey", PasswordHash="40BD001563085FC35165329EA1FF5C5ECBDBBEEF"},
+                    new User { Id = 2, FirstName="Максим", SecondName="Кириченко", MiddleName = "Сергеевич", IsBusy=false , UserRoleId = 4, UserStatusId = 3, UserName = "Maxim", PasswordHash="40BD001563085FC35165329EA1FF5C5ECBDBBEEF"},
+                    new User { Id = 3, FirstName="Дмитрий", SecondName="Иванович", MiddleName = "Булатицкий", IsBusy=false , UserRoleId = 2, UserStatusId = 3, UserName = "Lead", PasswordHash="40BD001563085FC35165329EA1FF5C5ECBDBBEEF"},
+                    new User { Id = 4, FirstName="Андрей", SecondName="Селифонтов",MiddleName = "Александрович", IsBusy=false , UserRoleId = 4, UserStatusId = 3, UserName = "Andreog", PasswordHash="40BD001563085FC35165329EA1FF5C5ECBDBBEEF"}
                 });
 
             modelBuilder.Entity<Operation>().HasData(
                 new Operation[]
                 {
-                    new Operation { Id = 1,  Title = "Поиск кота", CoordinatorId=1, Date=new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473),IsSuccess=false},
-                    new Operation { Id = 2,  Title = "Поиск червя", CoordinatorId=1, Date=new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473),IsSuccess=true },
-                    new Operation { Id = 3,  Title = "Поиск себя", CoordinatorId=1, Date=new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473),IsSuccess=true },
+                    new Operation { Id = 1,  Title = "Поиск семьи", CoordinatorId=1, Date=new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473),IsSuccess=false},
+                    new Operation { Id = 2,  Title = "Поиск туристов", CoordinatorId=1, Date=new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473),IsSuccess=true },
+                    new Operation { Id = 3,  Title = "Поиск грибников", CoordinatorId=1, Date=new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473),IsSuccess=true },
                 });
 
             modelBuilder.Entity<Mission>().HasData(
                 new Mission[]
                 {
-                    new Mission { Id = 1, UserId = 2},
-                    new Mission { Id = 2, UserId = 4},
+                    new Mission { Id = 1, UserId = 2, OperationId = 1},
+                    new Mission { Id = 2, UserId = 4, OperationId = 1},
                 });
 
             modelBuilder.Entity<Cycle>().HasData(
@@ -254,12 +264,12 @@ namespace DataLayer.Contexts
             modelBuilder.Entity<DetectedObject>().HasData(
                 new DetectedObject[]
                 {
-                    new DetectedObject { Id = 1, X="53.22104557790858", Y="34.11112667059104", Title = "Кот на дубе", Description="На Севере лукоморья",ImageId=1,ImageMarkedUpId=1, MissionId=1, OperationId=1},
-                    new DetectedObject { Id = 2, X="53.21104557790858", Y="34.11012667059104", Title = "Кот в камышах", Description="На Юго-Западе леса", ImageId=2,ImageMarkedUpId=1, MissionId=1, OperationId=1},
-                    new DetectedObject { Id = 3, X="53.23204557790858", Y="34.12212667059104", Title = "Кот Матроскин", Description="В деревне", ImageId=1,ImageMarkedUpId=1, MissionId=1, IsDesired=true, OperationId=1},
-                    new DetectedObject { Id = 4, X="53.23104557790858", Y="34.13112667059104", Title = "Кот Леопольд", Description="Желает жить дружно", ImageId=2,ImageMarkedUpId=1, MissionId=1, IsDesired=false, OperationId=1},
-                    new DetectedObject { Id = 5, X="53.21204557790858", Y="34.17212667059104", Title = "Кот Баюн", Description="В чаще", ImageId=2, OperationId=1},
-                    new DetectedObject { Id = 6, X="53.25104557790858", Y="34.16012667059104", Title = "Кот в сапогах", Description="На Востоке",ImageId=3,ImageMarkedUpId=1, MissionId=2, OperationId=1},
+                    new DetectedObject { Id = 1, X="53.22104557790858", Y="34.11112667059104", Title = "Объект #1", Description="На Севере лукоморья",ImageId=1,ImageMarkedUpId=1, MissionId=1, OperationId=1},
+                    new DetectedObject { Id = 2, X="53.21104557790858", Y="34.11012667059104", Title = "Объект #2", Description="На Юго-Западе леса", ImageId=2,ImageMarkedUpId=1, MissionId=1, OperationId=1},
+                    new DetectedObject { Id = 3, X="53.23204557790858", Y="34.12212667059104", Title = "Объект #3", Description="В деревне", ImageId=1,ImageMarkedUpId=1, MissionId=1, IsDesired=true, OperationId=1},
+                    new DetectedObject { Id = 4, X="53.23104557790858", Y="34.13112667059104", Title = "Объект #4", Description="Желает жить дружно", ImageId=2,ImageMarkedUpId=1, MissionId=1, IsDesired=false, OperationId=1},
+                    new DetectedObject { Id = 5, X="53.21204557790858", Y="34.17212667059104", Title = "Объект #5", Description="В чаще", ImageId=2, OperationId=1},
+                    new DetectedObject { Id = 6, X="53.25104557790858", Y="34.16012667059104", Title = "Объект #6", Description="На Востоке",ImageId=3,ImageMarkedUpId=1, MissionId=2, OperationId=1},
                 });
 
             //modelBuilder.Entity<ObjectStatus>().HasData(

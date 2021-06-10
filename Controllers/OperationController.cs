@@ -32,10 +32,9 @@ namespace ObjectSearchAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Operation>> GetOperations(bool? isActive = null, int? coordinatorId = null)
+        public ActionResult<IEnumerable<Operation>> GetOperations()
         {
-            var operations = _operationsRepository.Get(!isActive, coordinatorId).ToList();
-
+            var operations = _operationsRepository.Get(UserId).ToList();
             return Ok(operations);
         }
 
@@ -51,9 +50,9 @@ namespace ObjectSearchAPI.Controllers
         }
 
         [HttpGet("active", Name = "GetActiveOperation")]
-        public ActionResult<Operation> GetActiveOperation(int? coordinatorId = null)
+        public ActionResult<Operation> GetActiveOperation()
         {
-            var operation = _operationsRepository.Get(isSuccess: false, coordinatorId).FirstOrDefault();
+            var operation = _operationsRepository.GetActiveOperation(UserId);
             if (operation != null)
             {
                 return Ok(operation);
@@ -103,7 +102,7 @@ namespace ObjectSearchAPI.Controllers
             var operation = _mapper.Map<Operation>(operationsCreateDto);
             operation.Date = DateTime.Now;
             operation.IsSuccess = false;
-            operation.CoordinatorId = 1; //TODO заменить "1" на текущего пользователя
+            operation.CoordinatorId = UserId; 
             _operationsRepository.Create(operation);
             _operationsRepository.SaveChanges();
 

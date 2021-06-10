@@ -9,7 +9,7 @@ namespace DataLayer.Repositories.Users
     {
         bool SaveChanges();
 
-        IEnumerable<Models.User> Get();
+        IEnumerable<Models.User> Get(int? OperationId = null, int? UserRoleId = null, int? UserStatusId = null);
         User GetById(int id);
         IEnumerable<Models.UserRole> GetRoles();
         User GetByLoginPassword(string userName, string password);

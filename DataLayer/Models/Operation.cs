@@ -22,6 +22,7 @@ namespace DataLayer.Models
         public List<OperationUser> OperationUsers { get; set; }
         public virtual IEnumerable<DetectedObject> DetectedObjects { get; set; }
         public virtual IEnumerable<Cycle> Cycles { get; set; }
+        public virtual IEnumerable<Mission> Missions { get; set; }
 
 
 

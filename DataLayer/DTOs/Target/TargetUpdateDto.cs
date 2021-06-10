@@ -16,7 +16,6 @@ namespace DataLayer.Models
         public string Description { get; set; }
         public DateTime LostTime { get; set; }
         public int TargetTypeId { get; set; }
-        public int OperationId { get; set; }
         public int TargetStatusId { get; set; }
 
     }

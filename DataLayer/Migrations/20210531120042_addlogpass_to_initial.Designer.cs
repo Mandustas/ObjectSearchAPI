@@ -4,14 +4,16 @@ using DataLayer.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(ObjectSearchContext))]
-    partial class ObjectSearchContextModelSnapshot : ModelSnapshot
+    [Migration("20210531120042_addlogpass_to_initial")]
+    partial class addlogpass_to_initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -136,7 +138,7 @@ namespace DataLayer.Migrations
                             IsDesired = false,
                             MissionId = 1,
                             OperationId = 1,
-                            Title = "Объект #1",
+                            Title = "Кот на дубе",
                             X = "53.22104557790858",
                             Y = "34.11112667059104"
                         },
@@ -149,7 +151,7 @@ namespace DataLayer.Migrations
                             IsDesired = false,
                             MissionId = 1,
                             OperationId = 1,
-                            Title = "Объект #2",
+                            Title = "Кот в камышах",
                             X = "53.21104557790858",
                             Y = "34.11012667059104"
                         },
@@ -162,7 +164,7 @@ namespace DataLayer.Migrations
                             IsDesired = true,
                             MissionId = 1,
                             OperationId = 1,
-                            Title = "Объект #3",
+                            Title = "Кот Матроскин",
                             X = "53.23204557790858",
                             Y = "34.12212667059104"
                         },
@@ -175,7 +177,7 @@ namespace DataLayer.Migrations
                             IsDesired = false,
                             MissionId = 1,
                             OperationId = 1,
-                            Title = "Объект #4",
+                            Title = "Кот Леопольд",
                             X = "53.23104557790858",
                             Y = "34.13112667059104"
                         },
@@ -186,7 +188,7 @@ namespace DataLayer.Migrations
                             ImageId = 2,
                             IsDesired = false,
                             OperationId = 1,
-                            Title = "Объект #5",
+                            Title = "Кот Баюн",
                             X = "53.21204557790858",
                             Y = "34.17212667059104"
                         },
@@ -199,7 +201,7 @@ namespace DataLayer.Migrations
                             IsDesired = false,
                             MissionId = 2,
                             OperationId = 1,
-                            Title = "Объект #6",
+                            Title = "Кот в сапогах",
                             X = "53.25104557790858",
                             Y = "34.16012667059104"
                         });
@@ -333,7 +335,7 @@ namespace DataLayer.Migrations
                             CoordinatorId = 1,
                             Date = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473),
                             IsSuccess = false,
-                            Title = "Поиск семьи"
+                            Title = "Поиск кота"
                         },
                         new
                         {
@@ -341,7 +343,7 @@ namespace DataLayer.Migrations
                             CoordinatorId = 1,
                             Date = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473),
                             IsSuccess = true,
-                            Title = "Поиск туристов"
+                            Title = "Поиск червя"
                         },
                         new
                         {
@@ -349,7 +351,7 @@ namespace DataLayer.Migrations
                             CoordinatorId = 1,
                             Date = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473),
                             IsSuccess = true,
-                            Title = "Поиск грибников"
+                            Title = "Поиск себя"
                         });
                 });
 
@@ -428,62 +430,62 @@ namespace DataLayer.Migrations
                         new
                         {
                             Id = 1,
-                            Description = "Особые приметы: черная куртка и белые штаны",
+                            Description = "Рыжий и пушистый",
                             LostTime = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473),
                             OperationId = 1,
                             TargetStatusId = 2,
                             TargetTypeId = 1,
-                            Title = "Мужчина 40 лет"
+                            Title = "Кот"
                         },
                         new
                         {
                             Id = 2,
-                            Description = "Особые приметы: высокий рост и корзина для грибов",
+                            Description = "Ленточный или кольчатый",
                             LostTime = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473),
                             OperationId = 2,
                             TargetStatusId = 3,
                             TargetTypeId = 1,
-                            Title = "Женщина 28 лет"
+                            Title = "Червь"
                         },
                         new
                         {
                             Id = 3,
-                            Description = "Цвет красный, внедорожник",
+                            Description = "Фундаментальная категория философского дискурса, которая фиксирует основу существования",
                             LostTime = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473),
                             OperationId = 3,
                             TargetStatusId = 3,
                             TargetTypeId = 1,
-                            Title = "Автомобиль Renaut"
+                            Title = "Бытие"
                         },
                         new
                         {
                             Id = 4,
-                            Description = "Цвет красный, внедорожник",
+                            Description = "Объективная реальность, существующая вне и независимо от человеческого сознания",
                             LostTime = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473),
                             OperationId = 3,
                             TargetStatusId = 3,
                             TargetTypeId = 1,
-                            Title = "Автомобиль Lada"
+                            Title = "Материя"
                         },
                         new
                         {
                             Id = 5,
-                            Description = "Цвет красный, внедорожник",
+                            Description = "Состояние психической жизни организма, выражающееся в субъективном переживании событий внешнего мира и тела организма",
                             LostTime = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473),
                             OperationId = 3,
                             TargetStatusId = 3,
                             TargetTypeId = 1,
-                            Title = "Автомобиль Ford"
+                            Title = "Сознание"
                         },
                         new
                         {
                             Id = 6,
-                            Description = "Цвет черный, седан",
+                            Description = "Мягкий и свежий",
                             LostTime = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473),
                             OperationId = 1,
                             TargetStatusId = 3,
                             TargetTypeId = 1,
-                            Title = "Автомобиль Lada"
+                            Title = "Хлеб"
                         });
                 });
 
@@ -636,7 +638,7 @@ namespace DataLayer.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c3abe456-4ccb-4950-a24a-6a5c0ed1c4be",
+                            ConcurrencyStamp = "7eb1dc0a-ae65-4709-84db-13937fd7a9e7",
                             EmailConfirmed = false,
                             FirstName = "Андрей",
                             IsBusy = false,
@@ -645,7 +647,7 @@ namespace DataLayer.Migrations
                             PasswordHash = "40BD001563085FC35165329EA1FF5C5ECBDBBEEF",
                             PhoneNumberConfirmed = false,
                             SecondName = "Подоляко",
-                            SecurityStamp = "38af0dce-9fcf-4def-a6ee-30e8d65531e5",
+                            SecurityStamp = "e2bd68c4-a1d3-4fb7-8323-5d3f41db10b5",
                             TwoFactorEnabled = false,
                             UserName = "Andrey",
                             UserRoleId = 3,
@@ -655,7 +657,7 @@ namespace DataLayer.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f7dbbdfb-f305-4612-a8ef-7f9be9ae6484",
+                            ConcurrencyStamp = "84e6106c-14fa-4e74-9541-26fa7732cb70",
                             EmailConfirmed = false,
                             FirstName = "Максим",
                             IsBusy = false,
@@ -664,7 +666,7 @@ namespace DataLayer.Migrations
                             PasswordHash = "40BD001563085FC35165329EA1FF5C5ECBDBBEEF",
                             PhoneNumberConfirmed = false,
                             SecondName = "Кириченко",
-                            SecurityStamp = "2aa779ed-f513-4982-85d8-dd8184208eff",
+                            SecurityStamp = "8a5f0c87-0192-40b0-8421-aa47fb617a72",
                             TwoFactorEnabled = false,
                             UserName = "Maxim",
                             UserRoleId = 4,
@@ -674,7 +676,7 @@ namespace DataLayer.Migrations
                         {
                             Id = 3,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f1afd47b-5cb2-4b68-9483-89d8fcddad7b",
+                            ConcurrencyStamp = "d1112464-de47-4f49-ad07-b9d0e758b0b8",
                             EmailConfirmed = false,
                             FirstName = "Дмитрий",
                             IsBusy = false,
@@ -683,7 +685,7 @@ namespace DataLayer.Migrations
                             PasswordHash = "40BD001563085FC35165329EA1FF5C5ECBDBBEEF",
                             PhoneNumberConfirmed = false,
                             SecondName = "Иванович",
-                            SecurityStamp = "e1e28108-9811-4c74-ab45-f2df70956bc1",
+                            SecurityStamp = "506c4ba2-c604-4b9d-a22d-6810b4bea74b",
                             TwoFactorEnabled = false,
                             UserName = "Lead",
                             UserRoleId = 2,
@@ -693,7 +695,7 @@ namespace DataLayer.Migrations
                         {
                             Id = 4,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f04bbc89-22a9-4b65-b38f-ee17f22910e0",
+                            ConcurrencyStamp = "fefb7570-fdd0-4f45-96d8-8592221c18bd",
                             EmailConfirmed = false,
                             FirstName = "Андрей",
                             IsBusy = false,
@@ -702,7 +704,7 @@ namespace DataLayer.Migrations
                             PasswordHash = "40BD001563085FC35165329EA1FF5C5ECBDBBEEF",
                             PhoneNumberConfirmed = false,
                             SecondName = "Селифонтов",
-                            SecurityStamp = "d8ed7f61-ad6f-4673-a049-9b5dc0bd65c2",
+                            SecurityStamp = "648fa8b6-c705-45c7-a519-f2ef622f0a5e",
                             TwoFactorEnabled = false,
                             UserName = "Andreog",
                             UserRoleId = 4,
