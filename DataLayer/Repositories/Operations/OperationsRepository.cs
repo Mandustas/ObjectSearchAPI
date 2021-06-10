@@ -55,6 +55,16 @@ namespace DataLayer.Repositories.Operations
             return operations;
         }
 
+        public IEnumerable<Operation> Get(bool? isSuccess = null, int? coordinatorId = null)
+        {
+            var operations = _objectSearchContext.Operations.ToList();
+            if (isSuccess.HasValue)
+            {
+                operations = operations.Where(s => s.IsSuccess == isSuccess).ToList();
+            }
+            return operations;
+        }
+
         public Operation GetActiveOperation(int? coordinatorId = null)
         {
             var operation = _objectSearchContext.Operations

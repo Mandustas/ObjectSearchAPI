@@ -10,7 +10,6 @@ using System.Security.Claims;
 using DataLayer.Repositories.Operations;
 using ObjectSearchAPI.Hubs;
 using Microsoft.AspNetCore.SignalR;
-using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -28,8 +27,6 @@ namespace ObjectSearchAPI.Controllers
             NotFound = 3
         }
 
-        private int UserId => int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
-        // GET: api/<TargetController>
         private int UserId => int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
         private readonly ITargetRepository _targetRepository;
         private readonly IOperationsRepository _operationRepository;

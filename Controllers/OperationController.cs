@@ -38,6 +38,14 @@ namespace ObjectSearchAPI.Controllers
             return Ok(operations);
         }
 
+        [HttpGet("user", Name = "GetOperationForUser")]
+        public ActionResult<IEnumerable<Operation>> GetOperationsForUser(bool? isActive = null, int? coordinatorId = null)
+        {
+            var operations = _operationsRepository.Get(!isActive, coordinatorId).ToList();
+            return Ok(operations);
+        }
+
+
         [HttpGet("{id}", Name = "GetOperationById")]
         public ActionResult<Operation> GetOperationById(int id)
         {
