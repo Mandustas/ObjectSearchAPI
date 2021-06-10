@@ -338,3 +338,5 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/DataLayer/Migrations/20210529153232_UpdateStatusUser.cs
+/DataLayer/Migrations/20210529153232_UpdateStatusUser.Designer.cs
