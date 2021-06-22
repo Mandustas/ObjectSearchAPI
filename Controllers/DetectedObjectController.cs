@@ -50,10 +50,10 @@ namespace ObjectSearchAPI.Controllers
             _mapper = mapper;
         }
         [HttpGet]
-        public ActionResult<IEnumerable<DetectedObject>> GetDetectedObjects()
+        public ActionResult<IEnumerable<DetectedObject>> GetDetectedObjects(bool? isDesired = null, int? MissionId = null, bool? isFree = null)
         {
             int operationId = _operationRepository.GetActiveOperationId(UserId);
-            var detectedObjects = _detectedObjectRepository.Get(operationId).ToList();
+            var detectedObjects = _detectedObjectRepository.Get(operationId, MissionId, isDesired, isFree).ToList();
             return Ok(detectedObjects);
         }
 
@@ -183,6 +183,7 @@ namespace ObjectSearchAPI.Controllers
 
             //    bestDistances.Add(i++, (user.Id, arr.Min())); //0 - 1 кластер, 1 - 2 кластер ...
             //}
+
             i = 0;
             List<UserDto> usersCopy = userDtos.ToList();
             for (i = 0; i < num_clasters; i++)
