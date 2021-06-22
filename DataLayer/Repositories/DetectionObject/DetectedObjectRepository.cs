@@ -21,19 +21,20 @@ namespace DataLayer.Repositories.DetectedObjects
             return _objectSearchContext.SaveChanges() >= 0;
         }
 
-        public IEnumerable<DetectedObject> Get(int? operationId = null, int? missionId = null, bool? isDesired = null)
+        public IEnumerable<DetectedObject> Get(int? operationId = null, int? missionId = null, bool? isDesired = null, bool? isFree = null)
         {
             
             var detectedObjects = _objectSearchContext.DetectedObjects
-                .Include(i => i.Image)
+                .Include(i => i.ImageMarkedUp)
+
                 .ToList();
             foreach (var detectedObject in detectedObjects)
             {
-                if (detectedObject.Image!=null)
-                {
-                    detectedObject.Image.DetectedObjects = null;
-                    detectedObject.Image.DetectedObjectsMarkUp = null;
-                }
+                //if (detectedObject.Image!=null)
+                //{
+                //    detectedObject.Image.DetectedObjects = null;
+                //    detectedObject.Image.DetectedObjectsMarkUp = null;
+                //}
                 if (detectedObject.ImageMarkedUp != null)
                 {
                     detectedObject.ImageMarkedUp.DetectedObjects = null;
@@ -45,7 +46,11 @@ namespace DataLayer.Repositories.DetectedObjects
             {
                 detectedObjects = detectedObjects.Where(s => s.OperationId == operationId).ToList();
             }
-            if (missionId.HasValue)
+            if (isFree.HasValue && isFree == true)
+            {
+                detectedObjects = detectedObjects.Where(s => s.MissionId == null).ToList();
+            } 
+            if (missionId.HasValue && !isFree.HasValue)
             {
                 detectedObjects = detectedObjects.Where(s => s.MissionId == missionId).ToList();
             } 
