@@ -16,9 +16,7 @@ namespace DataLayer.Models
         [Required]
         [MaxLength(300)]
         public string Description { get; set; }
-#nullable enable
-        public string? PathImage { get; set; }
-#nullable disable
+        public string PathImage { get; set; }
         public DateTime LostTime { get; set; }
 
         public int OperationId { get; set; }
