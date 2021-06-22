@@ -268,6 +268,7 @@ namespace ObjectSearchAPI.Controllers
             }
 
             _detectedObjectRepository.SaveChanges();
+            _notificationHub.Clients.All.SendAsync("Notification", "Миссии обновлены.");
 
             return Ok();
 
@@ -287,6 +288,7 @@ namespace ObjectSearchAPI.Controllers
             _detectedObjectRepository.Update(detectedObject); // Best practice
             _detectedObjectRepository.SaveChanges();
             _notificationHub.Clients.All.SendAsync("SendMessage", "DetectedObjectUpdated");
+            _notificationHub.Clients.All.SendAsync("Notification", "В миссию #" + detectedObject.MissionId + ".");
             return NoContent();
         }
 

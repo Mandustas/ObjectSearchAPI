@@ -12,6 +12,7 @@ namespace DataLayer.Repositories.Targets
         IEnumerable<Models.Target> Get();
         IEnumerable<Models.Target> GetByUserId(int id);
         Target GetById(int id);
+        public Target GetByWithStatus(int id);
         void Create(Target target);
         void Delete(Target target);
         void Update(Target target);

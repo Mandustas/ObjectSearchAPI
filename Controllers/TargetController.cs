@@ -73,6 +73,17 @@ namespace ObjectSearchAPI.Controllers
             return NotFound();
         }
 
+        [HttpGet("current/{id}", Name = "GetTargetWithStatusById")]
+        public ActionResult<Target> GetTargetWithStatusById(int id)
+        {
+            var target = _targetRepository.GetByWithStatus(id);
+            if (target != null)
+            {
+                return Ok(target);
+            }
+            return NotFound();
+        }
+
         [Authorize(Roles = "Координатор ПСР")]
         [HttpPost]
         public ActionResult<TargetCreateDto> CreateTarget(TargetCreateDto targetCreateDto)
@@ -85,6 +96,7 @@ namespace ObjectSearchAPI.Controllers
             _targetRepository.SaveChanges();
 
             _notificationHub.Clients.All.SendAsync("SendMessage", "TargetCreated");
+            _notificationHub.Clients.All.SendAsync("Notification", "Цель " + target.Title + " обновлена.");
 
             var targetReadDto = _mapper.Map<Target>(target);
 
@@ -108,6 +120,7 @@ namespace ObjectSearchAPI.Controllers
             _targetRepository.SaveChanges();
 
             _notificationHub.Clients.All.SendAsync("SendMessage", "TargetUpdated");
+            _notificationHub.Clients.All.SendAsync("Notification", "Цель " + target.Title + " обновлена.");
 
             return NoContent();
         }
@@ -122,11 +135,11 @@ namespace ObjectSearchAPI.Controllers
                 return NotFound();
             }
 
+            _notificationHub.Clients.All.SendAsync("SendMessage", "TargetDeleted");
+            _notificationHub.Clients.All.SendAsync("Notification", "Цель " + target.Title + " удалена.");
+
             _targetRepository.Delete(target);
             _targetRepository.SaveChanges();
-
-            _notificationHub.Clients.All.SendAsync("SendMessage", "TargetDeleted");
-
             return NoContent();
         }
     }

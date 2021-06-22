@@ -45,6 +45,11 @@ namespace DataLayer.Repositories.Targets
 
         public Target GetById(int id)
         {
+            return _objectSearchContext.Targets.FirstOrDefault(p => p.Id == id);
+        }
+
+        public Target GetByWithStatus(int id)
+        {
             var result = _objectSearchContext.Targets
                 .Include(status => status.TargetStatus)
                 .FirstOrDefault(p => p.Id == id);

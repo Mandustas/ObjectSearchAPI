@@ -119,7 +119,7 @@ namespace ObjectSearchAPI.Controllers
             _operationRepository.Update(activeOperation); // Best practice
             _operationRepository.SaveChanges();
             _notificationHub.Clients.All.SendAsync("SendMessage", "У вас новая операция");
-            _notificationHub.Clients.All.SendAsync("Notification", "У вас новая операция"); 
+            _notificationHub.Clients.All.SendAsync("Notification", "Вам назначена новая операция"); 
             return Ok();
         }
     }

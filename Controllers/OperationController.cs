@@ -137,6 +137,7 @@ namespace ObjectSearchAPI.Controllers
             _operationsRepository.Update(operation); // Best practice
             _operationsRepository.SaveChanges();
             _notificationHub.Clients.All.SendAsync("SendMessage", "OperationUpdated");
+            _notificationHub.Clients.All.SendAsync("Notification", "Всем спасибо! Все свободны!");
             return NoContent();
         }
 

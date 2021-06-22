@@ -89,6 +89,7 @@ namespace ObjectSearchAPI.Controllers
             _missionRepository.SaveChanges();
             var missionReadDto = _mapper.Map<Mission>(mission);
             _notificationHub.Clients.All.SendAsync("SendMessage", "MissionCreated");
+            _notificationHub.Clients.All.SendAsync("Notification", "Вам назначена миссия #" + mission.Id + ".");
             return CreatedAtRoute(nameof(GetMissionById), new { Id = missionReadDto.Id }, missionReadDto); //Return 201
         }
 
@@ -105,6 +106,7 @@ namespace ObjectSearchAPI.Controllers
             _missionRepository.Delete(mission);
             _missionRepository.SaveChanges();
             _notificationHub.Clients.All.SendAsync("SendMessage", "MissionDeleted");
+            _notificationHub.Clients.All.SendAsync("Notification", "Миссия #" + mission.Id + " удалена.");
             return NoContent();
         }
     }
