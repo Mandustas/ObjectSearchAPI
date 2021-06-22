@@ -57,10 +57,19 @@ namespace DataLayer.Repositories.Operations
 
         public IEnumerable<Operation> Get(bool? isSuccess = null, int? coordinatorId = null)
         {
-            var operations = _objectSearchContext.Operations.ToList();
+            var operations = _objectSearchContext.Operations
+                .Include(c => c.Coordinator)
+                .ToList();
             if (isSuccess.HasValue)
             {
                 operations = operations.Where(s => s.IsSuccess == isSuccess).ToList();
+            }
+            foreach(var item in operations)
+            {
+                item.OperationUsers = null;
+                item.Coordinator.СontrolledOperations = null;
+                item.Coordinator.PasswordHash = null;
+                item.Coordinator.UserName = null;
             }
             return operations;
         }
@@ -139,11 +148,14 @@ namespace DataLayer.Repositories.Operations
         public Operation GetById(int id)
         {
             var operation = _objectSearchContext.Operations
+                .Include(c => c.Coordinator)
                 .FirstOrDefault(p => p.Id == id);
             if (operation != null)
             {
                 operation.OperationUsers = null;
-
+                operation.Coordinator.СontrolledOperations = null;
+                operation.Coordinator.PasswordHash = null;
+                operation.Coordinator.UserName = null;
                 return operation;
             }
 

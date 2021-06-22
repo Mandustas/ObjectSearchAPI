@@ -70,7 +70,6 @@ namespace ObjectSearchAPI.Controllers
             {
                 return Ok(target);
             }
-
             return NotFound();
         }
 
@@ -85,7 +84,7 @@ namespace ObjectSearchAPI.Controllers
             _targetRepository.Create(target);
             _targetRepository.SaveChanges();
 
-            _notificationHub.Clients.All.SendAsync("SendMessage", "TargerCreated");
+            _notificationHub.Clients.All.SendAsync("SendMessage", "TargetCreated");
 
             var targetReadDto = _mapper.Map<Target>(target);
 

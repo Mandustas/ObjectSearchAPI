@@ -15,7 +15,12 @@ namespace ObjectSearchAPI.Hubs
         }
         public Task SendMessage(string message)
         {
-            return Clients.Others.SendAsync("SendMessage", message);
+            return Clients.All.SendAsync("SendMessage", message);
+        }
+
+        public Task Notification(string mess)
+        {
+            return Clients.Others.SendAsync("Notification", mess);
         }
     }
 }

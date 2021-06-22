@@ -7,6 +7,45 @@ namespace DataLayer.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "DetectedObjects");
+
+            migrationBuilder.DropTable(
+                name: "OperationUser");
+
+            migrationBuilder.DropTable(
+                name: "Targets");
+
+            migrationBuilder.DropTable(
+                name: "UserPositions");
+
+            migrationBuilder.DropTable(
+                name: "Images");
+
+            migrationBuilder.DropTable(
+                name: "Missions");
+
+            migrationBuilder.DropTable(
+                name: "TargetStatuses");
+
+            migrationBuilder.DropTable(
+                name: "TargetTypes");
+
+            migrationBuilder.DropTable(
+                name: "Cycles");
+
+            migrationBuilder.DropTable(
+                name: "Operations");
+
+            migrationBuilder.DropTable(
+                name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "UserRoles");
+
+            migrationBuilder.DropTable(
+                name: "UserStatuses");
+
             migrationBuilder.CreateTable(
                 name: "TargetStatuses",
                 columns: table => new

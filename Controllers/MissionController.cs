@@ -4,6 +4,8 @@ using DataLayer.Repositories.Missions;
 using DataLayer.Repositories.Operations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using ObjectSearchAPI.Hubs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,15 +25,18 @@ namespace ObjectSearchAPI.Controllers
         private int UserId => int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
         private readonly IMissionRepository _missionRepository;
         private readonly IOperationsRepository _operationRepository;
+        private readonly IHubContext<NotificationHub> _notificationHub;
         private readonly IMapper _mapper;
         public MissionController(
             IMissionRepository missionRepository,
             IOperationsRepository operationRepository,
+            IHubContext<NotificationHub> notificationHub,
             IMapper mapper
             )
         {
             _missionRepository = missionRepository;
             _operationRepository = operationRepository;
+            _notificationHub = notificationHub;
             _mapper = mapper;
         }
 
@@ -83,7 +88,7 @@ namespace ObjectSearchAPI.Controllers
             _missionRepository.Create(mission);
             _missionRepository.SaveChanges();
             var missionReadDto = _mapper.Map<Mission>(mission);
-
+            _notificationHub.Clients.All.SendAsync("SendMessage", "MissionCreated");
             return CreatedAtRoute(nameof(GetMissionById), new { Id = missionReadDto.Id }, missionReadDto); //Return 201
         }
 
@@ -99,6 +104,7 @@ namespace ObjectSearchAPI.Controllers
 
             _missionRepository.Delete(mission);
             _missionRepository.SaveChanges();
+            _notificationHub.Clients.All.SendAsync("SendMessage", "MissionDeleted");
             return NoContent();
         }
     }

@@ -45,7 +45,22 @@ namespace DataLayer.Repositories.Missions
                 .Where(p => p.UserId == Userid)
                 .Where(m => m.DetectedObjects.Any(op => op.OperationId == operation.OperationId))
                 .Include(u => u.DetectedObjects)
+                .ThenInclude(i => i.ImageMarkedUp)
+                .Include(u => u.DetectedObjects)
+                .ThenInclude(i => i.Image)
                 .ToList();
+            foreach(var mission in missions)
+            {
+                foreach(var detectedObject in mission.DetectedObjects)
+                {
+                    detectedObject.ImageMarkedUp.DetectedObjects = null;
+                    detectedObject.ImageMarkedUp.DetectedObjectsMarkUp = null;
+                    detectedObject.ImageMarkedUp.Cycle = null;
+                    detectedObject.Image.DetectedObjects = null;
+                    detectedObject.Image.DetectedObjectsMarkUp = null;
+                    detectedObject.Image.Cycle = null;
+                }
+            }
             return missions;
         }
 

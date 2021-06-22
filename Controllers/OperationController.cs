@@ -9,6 +9,8 @@ using DataLayer.Models;
 using DataLayer.Repositories.Operations;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.AspNetCore.SignalR;
+using ObjectSearchAPI.Hubs;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,13 +23,16 @@ namespace ObjectSearchAPI.Controllers
     {
         private int UserId => int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
         private readonly IOperationsRepository _operationsRepository;
+        private readonly IHubContext<NotificationHub> _notificationHub;
         private readonly IMapper _mapper;
         public OperationController(
             IOperationsRepository operationsRepository,
+            IHubContext<NotificationHub> notificationHub,
             IMapper mapper
             )
         {
             _operationsRepository = operationsRepository;
+            _notificationHub = notificationHub;
             _mapper = mapper;
         }
 
@@ -115,7 +120,7 @@ namespace ObjectSearchAPI.Controllers
             _operationsRepository.SaveChanges();
 
             var operationsReadDto = _mapper.Map<Operation>(operation);
-
+            _notificationHub.Clients.All.SendAsync("SendMessage", "OperationCreated");
             return CreatedAtRoute(nameof(GetOperationById), new { Id = operationsReadDto.Id }, operationsReadDto); //Return 201
         }
         [Authorize(Roles = "Координатор ПСР")]
@@ -131,6 +136,7 @@ namespace ObjectSearchAPI.Controllers
             _mapper.Map(operationsUpdateDto, operation);
             _operationsRepository.Update(operation); // Best practice
             _operationsRepository.SaveChanges();
+            _notificationHub.Clients.All.SendAsync("SendMessage", "OperationUpdated");
             return NoContent();
         }
 
@@ -146,6 +152,7 @@ namespace ObjectSearchAPI.Controllers
 
             _operationsRepository.Delete(operation);
             _operationsRepository.SaveChanges();
+            _notificationHub.Clients.All.SendAsync("SendMessage", "OperationDeleted");
             return NoContent();
         }
     }

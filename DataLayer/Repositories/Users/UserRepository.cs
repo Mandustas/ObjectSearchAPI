@@ -21,6 +21,49 @@ namespace DataLayer.Repositories.Users
             return (_objectSearchContext.SaveChanges() >= 0);
         }
 
+        public IEnumerable<User> GetCoordinateUser(int userId, int operationId)
+        {
+            var users = Get(operationId, 4)
+                .Where(u => u.Id != userId)
+                .ToList();        
+            foreach(var item in users)
+            {
+                item.UserName = null;
+                item.PasswordHash = null;
+            }
+            return users;
+        }
+
+        public UserPosition GetLastUserPosition(int userId)
+        {
+            var userPosition = _objectSearchContext.UserPositions
+                .Where(u => u.UserId == userId)
+                .OrderBy(k => k.Id)
+                .LastOrDefault();
+            userPosition.User = null;
+            return userPosition;
+        }
+
+        public bool CreateUserCoordinate(double x, double y, int userId)
+        {
+            UserPosition userPosition = new UserPosition();
+            userPosition.X = x.ToString(); userPosition.Y = y.ToString();
+            userPosition.UserId = userId;
+            _objectSearchContext.Add(userPosition);
+            return true;
+        }
+
+        public User GetInfoById(int userId)
+        {
+            var user = _objectSearchContext.Users
+                .FirstOrDefault(u => u.Id == userId);
+            if(user != null)
+            {
+                user.PasswordHash = null;
+            }
+            return user;
+        }
+
         public IEnumerable<User> Get(int? OperationId = null, int? UserRoleId = null, int? UserStatusId = null)
         {
             IEnumerable<User> users = new List<User> { };

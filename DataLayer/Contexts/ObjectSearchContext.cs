@@ -195,12 +195,12 @@ namespace DataLayer.Contexts
             modelBuilder.Entity<Target>().HasData(
                 new Target[]
                 {
-                    new Target { Id = 1, Title = "Мужчина 40 лет", Description = "Особые приметы: черная куртка и белые штаны", LostTime = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473),OperationId=1,TargetStatusId=2,TargetTypeId=1},
+                    new Target { Id = 1, Title = "Мужчина 40 лет", Description = "Особые приметы: черная куртка и белые штаны", PathImage = "https://games.mail.ru/hotbox/content_files/news/2021/06/09/567b8d118d4b425b8ee66deefd564617.jpg", LostTime = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473),OperationId=1,TargetStatusId=2,TargetTypeId=1},
                     new Target { Id = 2, Title = "Женщина 28 лет", Description = "Особые приметы: высокий рост и корзина для грибов", LostTime = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473) , OperationId=2,TargetStatusId=3,TargetTypeId=1},
                     new Target { Id = 3, Title = "Автомобиль Renaut", Description = "Цвет красный, внедорожник", LostTime = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473) , OperationId=3,TargetStatusId=3,TargetTypeId=1},
                     new Target { Id = 4, Title = "Автомобиль Lada", Description = "Цвет красный, внедорожник", LostTime = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473)  , OperationId=3,TargetStatusId=3,TargetTypeId=1},
                     new Target { Id = 5, Title = "Автомобиль Ford", Description = "Цвет красный, внедорожник", LostTime = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473)  , OperationId=3,TargetStatusId=3,TargetTypeId=1},
-                    new Target { Id = 6, Title = "Автомобиль Lada", Description = "Цвет черный, седан", LostTime = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473),OperationId=1,TargetStatusId=3,TargetTypeId=1},
+                    new Target { Id = 6, Title = "Автомобиль Lada", Description = "Цвет черный, седан", PathImage = "https://a.d-cd.net/598af9s-960.jpg", LostTime = new DateTime(2021, 5, 9, 7, 4, 48, 278, DateTimeKind.Local).AddTicks(3473),OperationId=1,TargetStatusId=3,TargetTypeId=1},
 
 
                 });

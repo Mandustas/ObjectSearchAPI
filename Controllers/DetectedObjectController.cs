@@ -8,6 +8,8 @@ using DataLayer.Repositories.Operations;
 using DataLayer.Repositories.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using ObjectSearchAPI.Hubs;
 using ObjectSearchAPI.Services;
 using System;
 using System.Collections;
@@ -30,6 +32,7 @@ namespace ObjectSearchAPI.Controllers
         private readonly IOperationsRepository _operationRepository;
         private readonly IMissionRepository _missionRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IHubContext<NotificationHub> _notificationHub;
         private readonly IClusteringService _clusteringService;
         private readonly IMapper _mapper;
         private int UserId => int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value);
@@ -38,6 +41,7 @@ namespace ObjectSearchAPI.Controllers
             IOperationsRepository operationRepository,
             IMissionRepository missionRepository,
             IUserRepository userRepository,
+            IHubContext<NotificationHub> notificationHub,
             IClusteringService clusteringService,
             IMapper mapper
             )
@@ -47,6 +51,7 @@ namespace ObjectSearchAPI.Controllers
             _missionRepository = missionRepository;
             _userRepository = userRepository;
             _clusteringService = clusteringService;
+            _notificationHub = notificationHub;
             _mapper = mapper;
         }
         [HttpGet]
@@ -88,7 +93,6 @@ namespace ObjectSearchAPI.Controllers
             {
                 return Ok(detectedObject);
             }
-
             return NotFound();
         }
 
@@ -105,7 +109,7 @@ namespace ObjectSearchAPI.Controllers
             _detectedObjectRepository.SaveChanges();
 
             var detectedObjectReadDto = _mapper.Map<DetectedObject>(detectedObject);
-
+            _notificationHub.Clients.All.SendAsync("SendMessage", "DetectedObjectCreated");
             return CreatedAtRoute(nameof(GetDetectedObjectById), new { Id = detectedObject.Id }, detectedObjectReadDto); //Return 201
         }
         [HttpPost]
@@ -281,6 +285,7 @@ namespace ObjectSearchAPI.Controllers
             _mapper.Map(detectedObjectUpdateDto, detectedObject);
             _detectedObjectRepository.Update(detectedObject); // Best practice
             _detectedObjectRepository.SaveChanges();
+            _notificationHub.Clients.All.SendAsync("SendMessage", "DetectedObjectUpdated");
             return NoContent();
         }
 
@@ -296,6 +301,7 @@ namespace ObjectSearchAPI.Controllers
 
             _detectedObjectRepository.Delete(detectedObject);
             _detectedObjectRepository.SaveChanges();
+            _notificationHub.Clients.All.SendAsync("SendMessage", "DetectedObjectDeleted");
             return NoContent();
         }
     }
