@@ -53,12 +53,20 @@ namespace DataLayer.Repositories.Missions
             {
                 foreach(var detectedObject in mission.DetectedObjects)
                 {
-                    detectedObject.ImageMarkedUp.DetectedObjects = null;
-                    detectedObject.ImageMarkedUp.DetectedObjectsMarkUp = null;
-                    detectedObject.ImageMarkedUp.Cycle = null;
-                    detectedObject.Image.DetectedObjects = null;
-                    detectedObject.Image.DetectedObjectsMarkUp = null;
-                    detectedObject.Image.Cycle = null;
+                    if (detectedObject.ImageMarkedUp!=null)
+                    {
+                        detectedObject.ImageMarkedUp.DetectedObjects = null;
+                        detectedObject.ImageMarkedUp.DetectedObjectsMarkUp = null;
+                        detectedObject.ImageMarkedUp.Cycle = null;
+
+                    }
+                    if (detectedObject.Image!=null)
+                    {
+
+                        detectedObject.Image.DetectedObjects = null;
+                        detectedObject.Image.DetectedObjectsMarkUp = null;
+                        detectedObject.Image.Cycle = null;
+                    }
                 }
             }
             return missions;
