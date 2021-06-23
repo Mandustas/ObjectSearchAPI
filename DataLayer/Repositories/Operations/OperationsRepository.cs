@@ -144,8 +144,7 @@ namespace DataLayer.Repositories.Operations
             }
             return operation;
         }
-
-        public Operation GetById(int id)
+        public Operation GetByIdWithCoordinator(int id)
         {
             var operation = _objectSearchContext.Operations
                 .Include(c => c.Coordinator)
@@ -159,6 +158,18 @@ namespace DataLayer.Repositories.Operations
                 return operation;
             }
 
+            return null;
+        }
+
+        public Operation GetById(int id)
+        {
+            var operation = _objectSearchContext.Operations
+                 .FirstOrDefault(p => p.Id == id);
+            if (operation != null)
+            {
+                operation.OperationUsers = null;
+                return operation;
+            }
             return null;
         }
 

@@ -54,7 +54,7 @@ namespace ObjectSearchAPI.Controllers
         [HttpGet("{id}", Name = "GetOperationById")]
         public ActionResult<Operation> GetOperationById(int id)
         {
-            var operation = _operationsRepository.GetById(id);
+            var operation = _operationsRepository.GetByIdWithCoordinator(id);
             if (operation != null)
             {
                 return Ok(operation);
